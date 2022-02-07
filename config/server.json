@@ -1,0 +1,20 @@
+{
+    "HOST": "localhost",
+    "PORT": 9999,
+    "rads": [
+        "bks", "wal", "fhe", 
+        "fhw", "cve", "cvw", 
+        "kap", "gbr", "sas", 
+        "pgr"
+    ],
+    "date": "2015-03-15",
+    "scan_time": 120,
+    "retro_sim": true,
+    "train_unit": {
+        "train_days": 30,
+        "train_hours": 0.25,
+        "seasonal": false,
+        "lags": null,
+        "save_train_file": "saved.models/"
+    }
+}

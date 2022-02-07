@@ -5,6 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
+*.png
+*tmp*
+*saved.models*
 
 # Distribution / packaging
 .Python
