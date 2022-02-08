@@ -7,11 +7,12 @@
         "kap", "gbr", "sas", 
         "pgr"
     ],
-    "date": "2015-03-15",
+    "date": "2015-03-11",
+    "base_hours": 16.0,
     "scan_time": 120,
     "retro_sim": true,
     "train_unit": {
-        "train_days": 30,
+        "train_days": 1,
         "train_hours": 0.25,
         "seasonal": false,
         "lags": null,

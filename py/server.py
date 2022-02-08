@@ -11,7 +11,9 @@ __maintainer__ = "Chakraborty, S."
 __email__ = "shibaji7@vt.edu"
 __status__ = "Research"
 
-import socketserver
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse, unquote
+
 from loguru import logger
 import datetime as dt
 import json
@@ -19,7 +21,7 @@ import numpy as np
 
 from getfitdata import FetchData 
 
-class RequestHandler(object):
+class DataRequestHandler(object):
     
     def __init__(self, o, retro_sim=True):
         for k in o.keys():
@@ -29,16 +31,16 @@ class RequestHandler(object):
         return
     
     def simulate_retro_data(self):
-        Ts = dt.datetime.strptime(self.dn, "%Y-%m-%d %H:%M")
-        Te = Ts + dt.timedelta(seconds=self.scan_time)
+        Ts = dt.datetime.strptime(self.dn, "%Y-%m-%dT%H:%M:%S")
+        Te = Ts + dt.timedelta(seconds=float(self.scan_time))
         self.resp["start"] = self.dn
-        self.resp["end"] = Te.strftime("%Y-%m-%d %H:%M")
+        self.resp["end"] = Te.strftime("%Y-%m-%dT%H:%M:%S")
+        self.resp["rad"] = self.rad
         logger.info(f"Req- {self.rad} {Ts}-{Te}!")
         v, p, bm, gt, time = self.fetchdata(self.rad, [Ts, Te])
         rsp = {
-            "rad": self.rad,
-            "velo": v,
-            "powr_l": p,
+            "velo": np.round(v, 1).tolist(),
+            "powr_l": np.round(p, 1).tolist(),
             "beam": bm,
             "gate": gt,
             "ts": time
@@ -52,17 +54,31 @@ class RequestHandler(object):
         o = fd.convert_to_pandas(b)
         v, p, bm, gt, time = [], [], [], [], []
         if len(o) > 0: 
-            v, p, bm, gt, time = np.round(o.v, 1).tolist(), np.round(o.p_l, 1).tolist(),\
+            v, p, bm, gt, time = o.v.tolist(), o.p_l.tolist(),\
                 o.bmnum.tolist(), o.slist.tolist(), o.time.tolist()
-            time = [t.to_pydatetime().strftime("%Y-%m-%d %H:%M:%S") for t in time]
+            time = [t.to_pydatetime().strftime("%Y-%m-%dT%H:%M:%S") for t in time]
         return v, p, bm, gt, time
     
     @staticmethod
     def compiles(req):
-        rh = RequestHandler(req)
+        rh = DataRequestHandler(req)
         return rh.resp
 
-class TCPHandler(socketserver.BaseRequestHandler):
+class InfoRequestHandler(object):
+    
+    def __init__(self, o, retro_sim=True):
+        for k in o.keys():
+            setattr(self, k, o[k])
+        self.resp = {}
+        return
+    
+    @staticmethod
+    def compiles(req):
+        rh = InfoRequestHandler(req)
+        return rh.resp
+    
+
+class TCPHandler(BaseHTTPRequestHandler):
     """
     This class works similar to the TCP handler class, except that
     self.request consists of a pair of data and client socket, and since
@@ -70,13 +86,23 @@ class TCPHandler(socketserver.BaseRequestHandler):
     when sending data back via sendto().
     """
     
-    def handle(self):
-        req = self.request.recv(1024*4).strip()
-        logger.info("{} wrote!".format(self.client_address[0]))
-        req = json.loads(req)
-        ret = RequestHandler.compiles(req)
-        self.request.sendall(bytes(json.dumps(ret), "utf-8"))
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "application/json")
+        self.end_headers()
+        query = urlparse(unquote(self.path)).query
+        req = dict(q.split("=") for q in query.split("&"))
+        if "method" not in req.keys(): self.wfile.write(bytes(json.dumps({"msg": "Method 'method' missing"}), "utf-8"))
+        else:
+            if req["method"] == "data":
+                ret = DataRequestHandler.compiles(req)
+                self.wfile.write(bytes(json.dumps(ret), "utf-8"))
+            elif req["method"] == "rad_infos":
+                ret = InfoRequestHandler.compiles(req)
+                self.wfile.write(bytes(json.dumps(ret), "utf-8"))
+            else: self.wfile.write(bytes(json.dumps({"msg": "Method 'method' implemented"}), "utf-8"))
         return
+
     
 def server(args=None):
     """
@@ -86,8 +112,7 @@ def server(args=None):
     with open("config/server.json", "r") as f: o = json.load(f)
     HOST, PORT = o["HOST"], o["PORT"]
     logger.info(f"Forking Server at, {HOST}:{PORT}")
-    with socketserver.TCPServer((HOST, PORT), TCPHandler) as server:
-        server.serve_forever()
+    with HTTPServer((HOST, PORT), TCPHandler) as server: server.serve_forever()
     return
     
 if __name__ == "__main__":

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/css/ol.css" type="text/css">
+  <style>
+.map {
+	height: 500px;
+	width: 90%;
+}
+  </style>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+  <title>OpenLayers example</title>
+  </head>
+  <body>
+  <h2>Web Service: SuperDARN SWF Monitor</h2>
+  <div id="map" class="map"></div>
+  <script type="text/javascript">
+var map = new ol.Map({
+	target: 'map',
+	layers: [
+		new ol.layer.Tile({source: new ol.source.OSM()})
+	],
+	view: new ol.View({
+		center: ol.proj.fromLonLat([-110, 50]),
+		zoom: 3
+	})
+});
+
+var rad = new ol.Feature({
+		geometry: new ol.geom.Polygon([[[-88,37], [-90,55], [-89,60], [-88,37]]]).transform('EPSG:4326','EPSG:3857'),   
+		name: "BKS",
+		population: 200,
+		rainfall: 40
+	});
+
+var rad_src = new ol.source.Vector({features: [rad]});
+var rad_layer = new ol.layer.Vector({source: rad_src});
+map.addLayer(rad_layer); 
+  </script>
+  </body>
+</html>
+

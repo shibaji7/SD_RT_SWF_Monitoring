@@ -21,6 +21,8 @@ import datetime as dt
 from statsmodels.tsa.ar_model import AutoReg, ar_select_order
 import statsmodels.api as sm
 import argparse
+import copy
+import pandas as pd
 
 import pydarn
 from suntime import Sun
@@ -50,33 +52,56 @@ class PhaseDetector(object):
         return
     
     def fetch_echoes_dataset(self):
-        dates = [self.prev_date, self.prev_date + dt.timedelta(1)]
+        last_date = self.prev_date - dt.timedelta(self.train_days-1)
+        dates = [last_date, self.prev_date + dt.timedelta(1)]
         fd = FetchData(self.rad, dates)
         b, _ = fd.fetch_data()
         dat = fd.convert_to_pandas(b)
         scan_min_time = self.scan_time/60.
         dat["min_of_day"] = dat.time.apply(lambda x: scan_min_time*int((x.hour*60+x.minute)/scan_min_time))
         dat = dat.groupby("min_of_day").size().reset_index()
+        # Add time in this dataframe
         dat = dat.rename(columns={0:"size"}).drop(columns=["min_of_day"])
+        dat["size"] = dat["size"]
         return dat
     
     def train_AR(self, rt=False):
         self.prev_date = dt.datetime.strptime(self.date, "%Y-%m-%d") - dt.timedelta(1)
         logger.info(f"Train background for {self.rad} on {self.prev_date}")
         ar_max_order = int(self.train_hours*3600. / self.scan_time)
-        fname = self.save_train_file + "ar.e%s.d%d.model.pickle"%(self.prev_date.strftime("%d%b%y"),self.train_days)
-        if rt: os.system("rm " + fname)
+        mfname = self.save_train_file + "ar.e%s.d%d.model.pickle"%(self.prev_date.strftime("%d%b%y"),self.train_days)
+        dfname = self.save_train_file + "ar.e%s.d%d.model.csv"%(self.prev_date.strftime("%d%b%y"),self.train_days)
+        if rt and os.path.exists(mfname): os.system("rm " + mfname)
+        if rt and os.path.exists(dfname): os.system("rm " + dfname)
         os.makedirs(self.save_train_file, exist_ok=True)
-        if not os.path.exists(fname):
+        if not os.path.exists(mfname):
             logger.info(f"Train an auto regressor model ARm({ar_max_order})")
             dat = self.fetch_echoes_dataset()
+            dat.to_csv(dfname, index=False, header=True)
             ar = AutoReg(dat, ar_max_order, old_names=False)
             self.model["ar.resp"] = ar.fit(cov_type="HC0")
-            self.model["ar.resp"].save(fname)
-        else: 
-            logger.info(f"Load an auto regressor model ARm({ar_max_order}):{fname}")
-            self.model["ar.resp"] = sm.load(fname)
+            self.model["ar.resp"].save(mfname)
+        else: self.model["ar.resp"] = sm.load(mfname)
         return
+    
+    def update_AR(self, dat):
+        if not hasattr(self, "d0"):
+            dfname = self.save_train_file + "ar.e%s.d%d.model.csv"%(self.prev_date.strftime("%d%b%y"),self.train_days)
+            self.d0 = pd.read_csv(dfname)
+        self.d0 = pd.concat([self.d0, dat])
+        self.d0 = self.d0.reset_index().drop(columns=["index"])
+        logger.info(f"Retrain AR: L({len(self.d0)})")
+        ar_max_order = int(self.train_hours*3600. / self.scan_time)
+        ar = AutoReg(self.d0, ar_max_order, old_names=False)
+        self.model["ar.resp"] = ar.fit(cov_type="HC0")
+        return
+    
+    def forecast(self, L=1, model_name="ar"):
+        key = "%s.resp"%model_name
+        if not key in self.model.keys(): self.train_AR()
+        model = self.model["%s.resp"%model_name]
+        if model_name=="ar": pred = model.forecast(L)
+        return pred
     
     def get_central_lat_lon(self):
         lonCenter, latCenter = self.rad_fov.lonFull.mean(), self.rad_fov.latFull.mean()
