@@ -22,6 +22,7 @@ from statsmodels.tsa.ar_model import AutoReg, ar_select_order
 import statsmodels.api as sm
 import argparse
 import copy
+import numpy as np
 import pandas as pd
 
 import pydarn
@@ -122,6 +123,50 @@ def simulate(args):
     opd = PhaseDetector(args.rad)
     opd.train_AR(args.retrain)
     return
+
+class Detectors(object):
+    """
+    Class is dedicated for SWF phase detection
+    """
+    
+    def __init__(self):
+        self.predictors = {}
+        self.phases = {}
+        self.echoes_dev = {}
+        return
+    
+    def preset(self, r):
+        if r not in self.predictors.keys(): self.predictors[r] = PhaseDetector(r)
+        if r not in self.phases.keys(): self.phases[r] = "p-SWF"
+        if r not in self.echoes_dev.keys(): self.echoes_dev[r] = 0.
+        return
+    
+    def get_echoes_counts(self, o):
+        d = pd.DataFrame()
+        d["size"] = [len(o)] 
+        return d
+    
+    def detect_SWF_phase(self, r, o, dn):
+        d = self.get_echoes_counts(o)
+        opd = self.predictors[r]
+        p = np.array(opd.forecast(), dtype=int)
+        if d["size"].tolist()[0] > 0: pe = abs(d["size"].tolist()[0] - p.tolist()[0])/d["size"].tolist()[0]
+        else: pe = -999.
+        logger.info(f"Forecast : Observations, {p.tolist()[0]}:{d['size'].tolist()[0]}")
+        logger.info(f"PE({pe}) at {dn}")
+        self.echoes_dev[r] = pe
+        if pe <= 0.5: opd.update_AR(d)
+        if (pe > 0.5 and pe <= 0.9) and self.phases[r]=="p-SWF": self.phases[r] = "o-SWF"
+        if pe > 0.9 and self.phases[r] in ["o-SWF", "p-SWF"]: self.phases[r] = "b-SWF"
+        if (pe > 0.5 and pe <= 0.9) and self.phases[r] in ["o-SWF", "b-SWF"]: self.phases[r] = "r-SWF"
+        if pe <= 0.1 and self.phases[r] in ["b-SWF", "r-SWF", "o-SWF"]: self.phases[r] = "p-SWF"
+        self.print_summary(dn)
+        return pe, self.phases[r]
+    
+    def print_summary(self, dn):
+        for r in self.phases.keys():
+            logger.info(f"Infered procs {dn}: {r.upper()}({self.phases[r]}, {self.echoes_dev[r]})")
+        return
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()

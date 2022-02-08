@@ -1,6 +1,6 @@
 {
-    "HOST": "localhost",
-    "PORT": 9999,
+    "HOST": "128.173.92.132",
+    "PORT": 8010,
     "rads": [
         "bks", "wal", "fhe", 
         "fhw", "cve", "cvw", 
