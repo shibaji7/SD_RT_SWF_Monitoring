@@ -113,7 +113,7 @@ class InfoRequestHandler(object):
         self.resp = o
         return
     
-    def parse_radar_info(self, gates=40):
+    def parse_radar_info(self, gates=15):
         self.hdw = pydarn.read_hdw_file(self.rad)
         self.rad_fov = FoV(hdw=self.hdw, ngates=gates)
         self.resp["beams"] = np.arange(self.hdw.beams).tolist()
