@@ -1,25 +1,55 @@
 import numpy
 
-class FoV(object):
+_BOFF = "physical"
+
+
+class CalcFov(object):
     """
     Class to calculate fov coords!
     This is mostly copied from DaViTPy.
     """
-    
-    def __init__(self, frang=180.0, rsep=45.0, hdw=None, nbeams=None,
-                 ngates=None, bmsep=None, recrise=None, siteLat=None,
-                 siteLon=None, siteBore=None, siteAlt=None, siteYear=None,
-                 elevation=None, altitude=300., hop=None, model='IS',
-                 date_time=None, coord_alt=0., fov_dir='front'):
+
+    def __init__(
+        self,
+        frang=180.0,
+        rsep=45.0,
+        hdw=None,
+        nbeams=None,
+        ngates=None,
+        bmsep=None,
+        recrise=None,
+        siteLat=None,
+        siteLon=None,
+        siteBore=None,
+        siteAlt=None,
+        siteYear=None,
+        elevation=None,
+        altitude=300.0,
+        hop=None,
+        model="IS",
+        date_time=None,
+        coord_alt=0.0,
+        fov_dir="front",
+        coords="geo",
+    ):
         # Define class constants
-        rn = 'fov'
+        rn = "fov"
 
         # Test that we have enough input arguments to work with
-        if(not hdw and None in [nbeams, ngates, bmsep, recrise, siteLat,
-                                 siteLon, siteBore, siteAlt, siteYear]):
-            estr = '{:s}: must provide either a hdw object or '.format(rn)
-            estr = '{:s}[nbeams, ngates, bmsep, recrise, siteLat,'.format(estr)
-            estr = '{:s} siteLon, siteBore, siteAlt, siteYear].'.format(estr)
+        if not hdw and None in [
+            nbeams,
+            ngates,
+            bmsep,
+            recrise,
+            siteLat,
+            siteLon,
+            siteBore,
+            siteAlt,
+            siteYear,
+        ]:
+            estr = "{:s}: must provide either a hdw object or ".format(rn)
+            estr = "{:s}[nbeams, ngates, bmsep, recrise, siteLat,".format(estr)
+            estr = "{:s} siteLon, siteBore, siteAlt, siteYear].".format(estr)
             logging.error(estr)
             return
 
@@ -45,8 +75,8 @@ class FoV(object):
                 siteAlt = hdw.geographic.alt
             if not siteBore:
                 siteBore = hdw.boresight
-#             if not siteYear:
-#                 siteYear = hdw.time.yr
+        #             if not siteYear:
+        #                 siteYear = hdw.time.yr
 
         # Some type checking is neccessary. If frang, rsep or recrise are
         # arrays, then they should be of shape (nbeams,).  Set a flag if any of
@@ -71,10 +101,8 @@ class FoV(object):
             # Array is adjusted to add on extra beam edge by copying the last
             # element
             if len(rsep) != nbeams:
-                estr = "{:s}: rsep must be a scalar or numpy ndarray".format(
-                    rn)
-                estr = "{:s} of size (nbeams). Using first element".format(
-                    estr)
+                estr = "{:s}: rsep must be a scalar or numpy ndarray".format(rn)
+                estr = "{:s} of size (nbeams). Using first element".format(estr)
                 estr = "{:s}: {}".format(estr, rsep[0])
                 logging.error(estr)
                 rsep = rsep[0] * numpy.ones(nbeams + 1)
@@ -88,8 +116,7 @@ class FoV(object):
             # element
             if len(recrise) != nbeams:
                 estr = "{:s}: recrise must be a scalar or numpy ".format(rn)
-                estr = "{:s}ndarray of size (nbeams). Using first ".format(
-                    estr)
+                estr = "{:s}ndarray of size (nbeams). Using first ".format(estr)
                 estr = "{:s}element: {}".format(estr, recrise[0])
                 logging.error(estr)
                 recrise = recrise[0] * numpy.ones(nbeams + 1)
@@ -106,40 +133,38 @@ class FoV(object):
                 # the last element and replicating the whole array as many
                 # times as beams
                 if altitude.size != ngates:
-                    estr = '{:s}: altitude must be of a scalar or '.format(rn)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, altitude[0])
+                    estr = "{:s}: altitude must be of a scalar or ".format(rn)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, altitude[0])
                     logging.error(estr)
                     altitude = altitude[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    altitude = numpy.resize(numpy.append(altitude, altitude[-1]),
-                                         (nbeams + 1, ngates + 1))
+                    altitude = numpy.resize(
+                        numpy.append(altitude, altitude[-1]), (nbeams + 1, ngates + 1)
+                    )
             elif altitude.ndim == 2:
                 # Array is adjusted to add on extra beam/gate edge by copying
                 # the last row and column
                 if altitude.shape != (nbeams, ngates):
-                    estr = '{:s}: altitude must be of a scalar or '.format(rn)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(altitude[0])
+                    estr = "{:s}: altitude must be of a scalar or ".format(rn)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(altitude[0])
                     logging.error(estr)
                     altitude = altitude[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    altitude = numpy.append(altitude,
-                                         altitude[-1, :].reshape(1, ngates),
-                                         axis=0)
-                    altitude = numpy.append(altitude,
-                                         altitude[:, -1].reshape(nbeams, 1),
-                                         axis=1)
+                    altitude = numpy.append(
+                        altitude, altitude[-1, :].reshape(1, ngates), axis=0
+                    )
+                    altitude = numpy.append(
+                        altitude, altitude[:, -1].reshape(nbeams, 1), axis=1
+                    )
             else:
-                estr = '{:s}: altitude must be of a scalar or '.format(rn)
-                estr = '{:s}numpy ndarray of size (ngates) or '.format(estr)
-                estr = '{:s}(nbeans,ngates). Using first element: '.format(
-                    estr)
-                estr = '{:s}{}'.format(estr, altitude[0])
+                estr = "{:s}: altitude must be of a scalar or ".format(rn)
+                estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                estr = "{:s}(nbeans,ngates). Using first element: ".format(estr)
+                estr = "{:s}{}".format(estr, altitude[0])
                 logging.error(estr)
                 altitude = altitude[0] * numpy.ones((nbeams + 1, ngates + 1))
         if isinstance(elevation, numpy.ndarray):
@@ -148,41 +173,38 @@ class FoV(object):
                 # the last element and replicating the whole array as many
                 # times as beams
                 if elevation.size != ngates:
-                    estr = '{:s}: elevation must be of a scalar or '.format(rn)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, elevation[0])
+                    estr = "{:s}: elevation must be of a scalar or ".format(rn)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, elevation[0])
                     logging.error(estr)
-                    elevation = elevation[0] * \
-                        numpy.ones((nbeams + 1, ngates + 1))
+                    elevation = elevation[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    elevation = numpy.resize(numpy.append(elevation, elevation[-1]),
-                                          (nbeams + 1, ngates + 1))
+                    elevation = numpy.resize(
+                        numpy.append(elevation, elevation[-1]), (nbeams + 1, ngates + 1)
+                    )
             elif elevation.ndim == 2:
                 # Array is adjusted to add on extra beam/gate edge by copying
                 # the last row and column
                 if elevation.shape != (nbeams, ngates):
-                    estr = '{:s}: elevation must be of a scalar or '.format(rn)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, elevation[0])
+                    estr = "{:s}: elevation must be of a scalar or ".format(rn)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, elevation[0])
                     logging.error(estr)
-                    elevation = elevation[0] * \
-                        numpy.ones((nbeams + 1, ngates + 1))
+                    elevation = elevation[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    elevation = numpy.append(elevation,
-                                          elevation[-1, :].reshape(1, ngates),
-                                          axis=0)
-                    elevation = numpy.append(elevation,
-                                          elevation[:, -1].reshape(nbeams, 1),
-                                          axis=1)
+                    elevation = numpy.append(
+                        elevation, elevation[-1, :].reshape(1, ngates), axis=0
+                    )
+                    elevation = numpy.append(
+                        elevation, elevation[:, -1].reshape(nbeams, 1), axis=1
+                    )
             else:
-                estr = '{:s}: elevation must be a scalar or '.format(rn)
-                estr = '{:s}numpy ndarray of size (ngates) or '.format(estr)
-                estr = '{:s}(nbeans,ngates). Using first element'.format(estr)
-                estr = '{:s}: {}'.format(estr, elevation[0])
+                estr = "{:s}: elevation must be a scalar or ".format(rn)
+                estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                estr = "{:s}(nbeans,ngates). Using first element".format(estr)
+                estr = "{:s}: {}".format(estr, elevation[0])
                 logging.error(estr)
                 elevation = elevation[0] * numpy.ones((nbeams + 1, ngates + 1))
 
@@ -192,32 +214,33 @@ class FoV(object):
                 # the last element and replicating the whole array as many
                 # times as beams
                 if hop.size != ngates:
-                    estr = '{:s}: hop must be of a scalar or numpy '.format(rn)
-                    estr = '{:s}ndarray of size (ngates) or '.format(estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, hop[0])
+                    estr = "{:s}: hop must be of a scalar or numpy ".format(rn)
+                    estr = "{:s}ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, hop[0])
                     logging.error(estr)
                     hop = hop[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    hop = numpy.resize(numpy.append(hop, hop[-1]),
-                                    (nbeams + 1, ngates + 1))
+                    hop = numpy.resize(
+                        numpy.append(hop, hop[-1]), (nbeams + 1, ngates + 1)
+                    )
             elif hop.ndim == 2:
                 # Array is adjusted to add on extra beam/gate edge by copying
                 # the last row and column
                 if hop.shape != (nbeams, ngates):
-                    estr = '{:s}: hop must be of a scalar or numpy '.format(rn)
-                    estr = '{:s}ndarray of size (ngates) or '.format(estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(hop[0])
+                    estr = "{:s}: hop must be of a scalar or numpy ".format(rn)
+                    estr = "{:s}ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(hop[0])
                     logging.error(estr)
                     hop = hop[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
                     hop = numpy.append(hop, hop[-1, :].reshape(1, ngates), axis=0)
                     hop = numpy.append(hop, hop[:, -1].reshape(nbeams, 1), axis=1)
             else:
-                estr = '{:s}: hop must be a scalar or numpy ndarray'.format(rn)
-                estr = '{:s} of size (ngates) or (nbeams,ngates).'.format(estr)
-                estr = '{:s} Using first element: {}'.format(estr, hop[0])
+                estr = "{:s}: hop must be a scalar or numpy ndarray".format(rn)
+                estr = "{:s} of size (ngates) or (nbeams,ngates).".format(estr)
+                estr = "{:s} Using first element: {}".format(estr, hop[0])
                 logging.error(estr)
                 hop = hop[0] * numpy.ones((nbeams + 1, ngates + 1))
 
@@ -228,41 +251,38 @@ class FoV(object):
                 # the last element and replicating the whole array as many
                 # times as beams
                 if coord_alt.size != ngates:
-                    estr = '{:s}: coord_alt must be a scalar or '.format(rn)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, coord_alt[0])
+                    estr = "{:s}: coord_alt must be a scalar or ".format(rn)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, coord_alt[0])
                     logging.error(estr)
-                    coord_alt = coord_alt[0] * \
-                        numpy.ones((nbeams + 1, ngates + 1))
+                    coord_alt = coord_alt[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    coord_alt = numpy.resize(numpy.append(coord_alt, coord_alt[-1]),
-                                          (nbeams + 1, ngates + 1))
+                    coord_alt = numpy.resize(
+                        numpy.append(coord_alt, coord_alt[-1]), (nbeams + 1, ngates + 1)
+                    )
             elif coord_alt.ndim == 2:
                 # Array is adjusted to add on extra beam/gate edge by copying
                 # the last row and column
                 if coord_alt.shape != (nbeams, ngates):
-                    estr = '{:s}: coord_alt must be a scalar or '.format(estr)
-                    estr = '{:s}numpy ndarray of size (ngates) or '.format(
-                        estr)
-                    estr = '{:s}(nbeans,ngates). Using first '.format(estr)
-                    estr = '{:s}element: {}'.format(estr, coord_alt[0])
+                    estr = "{:s}: coord_alt must be a scalar or ".format(estr)
+                    estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                    estr = "{:s}(nbeans,ngates). Using first ".format(estr)
+                    estr = "{:s}element: {}".format(estr, coord_alt[0])
                     logging.error(estr)
-                    coord_alt = coord_alt[0] * \
-                        numpy.ones((nbeams + 1, ngates + 1))
+                    coord_alt = coord_alt[0] * numpy.ones((nbeams + 1, ngates + 1))
                 else:
-                    coord_alt = numpy.append(coord_alt,
-                                          coord_alt[-1, :].reshape(1, ngates),
-                                          axis=0)
-                    coord_alt = numpy.append(coord_alt,
-                                          coord_alt[:, -1].reshape(nbeams, 1),
-                                          axis=1)
+                    coord_alt = numpy.append(
+                        coord_alt, coord_alt[-1, :].reshape(1, ngates), axis=0
+                    )
+                    coord_alt = numpy.append(
+                        coord_alt, coord_alt[:, -1].reshape(nbeams, 1), axis=1
+                    )
             else:
-                estr = '{:s}: coord_alt must be a scalar or '.format(rn)
-                estr = '{:s}numpy ndarray of size (ngates) or '.format(estr)
-                estr = '{:s}(nbeans,ngates). Using first element'.format(estr)
-                estr = '{:s}: {}'.format(estr, coord_alt[0])
+                estr = "{:s}: coord_alt must be a scalar or ".format(rn)
+                estr = "{:s}numpy ndarray of size (ngates) or ".format(estr)
+                estr = "{:s}(nbeans,ngates). Using first element".format(estr)
+                estr = "{:s}: {}".format(estr, coord_alt[0])
                 logging.error(estr)
                 coord_alt = coord_alt[0] * numpy.ones((nbeams + 1, ngates + 1))
 
@@ -271,12 +291,12 @@ class FoV(object):
         gates = numpy.arange(ngates + 1)
 
         # Create output arrays
-        slant_range_full = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
-        lat_full = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
-        lon_full = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
-        slant_range_center = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
-        lat_center = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
-        lon_center = numpy.zeros((nbeams + 1, ngates + 1), dtype='float')
+        slant_range_full = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
+        lat_full = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
+        lon_full = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
+        slant_range_center = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
+        lat_center = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
+        lon_center = numpy.zeros((nbeams + 1, ngates + 1), dtype="float")
 
         # Calculate deviation from boresight for center of beam
         boff_center = bmsep * (beams - (nbeams - 1) / 2.0)
@@ -289,11 +309,13 @@ class FoV(object):
             # this for the first loop, otherwise, repeat for every beam
             if (~is_param_array and ib == 0) or is_param_array:
                 # Calculate center slant range
-                srang_center = self.slantRange(frang[ib], rsep[ib], recrise[ib],
-                                          gates, center=True)
+                srang_center = self.slantRange(
+                    frang[ib], rsep[ib], recrise[ib], gates, center=True
+                )
                 # Calculate edges slant range
-                srang_edge = self.slantRange(frang[ib], rsep[ib], recrise[ib],
-                                        gates, center=False)
+                srang_edge = self.slantRange(
+                    frang[ib], rsep[ib], recrise[ib], gates, center=False
+                )
             # Save into output arrays
             slant_range_center[ib, :-1] = srang_center[:-1]
             slant_range_full[ib, :] = srang_edge
@@ -301,37 +323,62 @@ class FoV(object):
             # Calculate coordinates for Edge and Center of the current beam
             for ig in gates:
                 # Handle array-or-not question.
-                talt = altitude[ib, ig] if isinstance(altitude, numpy.ndarray) \
+                talt = (
+                    altitude[ib, ig]
+                    if isinstance(altitude, numpy.ndarray)
                     else altitude
-                telv = elevation[ib, ig] if isinstance(elevation, numpy.ndarray) \
+                )
+                telv = (
+                    elevation[ib, ig]
+                    if isinstance(elevation, numpy.ndarray)
                     else elevation
-                t_c_alt = coord_alt[ib, ig] \
-                    if isinstance(coord_alt, numpy.ndarray) else coord_alt
+                )
+                t_c_alt = (
+                    coord_alt[ib, ig]
+                    if isinstance(coord_alt, numpy.ndarray)
+                    else coord_alt
+                )
                 thop = hop[ib, ig] if isinstance(hop, numpy.ndarray) else hop
 
-                if model == 'GS':
+                if model == "GS":
                     if (~is_param_array and ib == 0) or is_param_array:
-                        slant_range_center[ib, ig] = \
-                            self.gsMapSlantRange(srang_center[ig], altitude=None,
-                                            elevation=None)
-                        slant_range_full[ib, ig] = \
-                            self.gsMapSlantRange(srang_edge[ig], altitude=None,
-                                            elevation=None)
+                        slant_range_center[ib, ig] = self.gsMapSlantRange(
+                            srang_center[ig], altitude=None, elevation=None
+                        )
+                        slant_range_full[ib, ig] = self.gsMapSlantRange(
+                            srang_edge[ig], altitude=None, elevation=None
+                        )
                         srang_center[ig] = slant_range_center[ib, ig]
                         srang_edge[ig] = slant_range_full[ib, ig]
 
                 if (srang_center[ig] != -1) and (srang_edge[ig] != -1):
                     # Then calculate projections
-                    latc, lonc = self.calcFieldPnt(siteLat, siteLon, siteAlt * 1e-3,
-                                              siteBore, boff_center[ib],
-                                              srang_center[ig], elevation=telv,
-                                              altitude=talt, hop=thop,
-                                              model=model, fov_dir=fov_dir)
-                    late, lone = self.calcFieldPnt(siteLat, siteLon, siteAlt * 1e-3,
-                                              siteBore, boff_edge[ib],
-                                              srang_edge[ig], elevation=telv,
-                                              altitude=talt, hop=thop,
-                                              model=model, fov_dir=fov_dir)
+                    latc, lonc = self.calcFieldPnt(
+                        siteLat,
+                        siteLon,
+                        siteAlt * 1e-3,
+                        siteBore,
+                        boff_center[ib],
+                        srang_center[ig],
+                        elevation=telv,
+                        altitude=talt,
+                        hop=thop,
+                        model=model,
+                        fov_dir=fov_dir,
+                    )
+                    late, lone = self.calcFieldPnt(
+                        siteLat,
+                        siteLon,
+                        siteAlt * 1e-3,
+                        siteBore,
+                        boff_edge[ib],
+                        srang_edge[ig],
+                        elevation=telv,
+                        altitude=talt,
+                        hop=thop,
+                        model=model,
+                        fov_dir=fov_dir,
+                    )
                 else:
                     latc, lonc = numpy.nan, numpy.nan
                     late, lone = numpy.nan, numpy.nan
@@ -351,25 +398,29 @@ class FoV(object):
         self.slantRFull = slant_range_full
         self.beams = beams[:-1]
         self.gates = gates[:-1]
-        self.coords = "geo"
+        self.coords = coords
         self.fov_dir = fov_dir
         self.model = model
 
     # *************************************************************
     def __str__(self):
-        outstring = 'latCenter: {}\nlonCenter: {}\nlatFull: {}\nlonFull: {} \
+        outstring = "latCenter: {}\nlonCenter: {}\nlatFull: {}\nlonFull: {} \
                      \nslantRCenter: {}\nslantRFull: {}\nbeams: {} \
                      \ngates: {} \ncoords: {} \nfield of view: {}\
-                     \nmodel: {}'.format(numpy.shape(self.latCenter),
-                                         numpy.shape(self.lonCenter),
-                                         numpy.shape(self.latFull),
-                                         numpy.shape(self.lonFull),
-                                         numpy.shape(self.slantRCenter),
-                                         numpy.shape(self.slantRFull),
-                                         numpy.shape(self.beams),
-                                         numpy.shape(self.gates), self.coords,
-                                         self.fov_dir, self.model)
-        return outstring            
+                     \nmodel: {}".format(
+            numpy.shape(self.latCenter),
+            numpy.shape(self.lonCenter),
+            numpy.shape(self.latFull),
+            numpy.shape(self.lonFull),
+            numpy.shape(self.slantRCenter),
+            numpy.shape(self.slantRFull),
+            numpy.shape(self.beams),
+            numpy.shape(self.gates),
+            self.coords,
+            self.fov_dir,
+            self.model,
+        )
+        return outstring
 
     def gsMapSlantRange(self, slant_range, altitude=None, elevation=None):
         """Calculate the ground scatter mapped slant range.
@@ -401,21 +452,27 @@ class FoV(object):
         elif elevation and not altitude:
             # If you have elevation but not altitude, then you calculate altitude,
             # and elevation will be adjusted anyway
-            altitude = numpy.sqrt(Re ** 2 + slant_range ** 2 + 2. * slant_range * Re *
-                               numpy.sin(numpy.radians(elevation))) - Re
+            altitude = (
+                numpy.sqrt(
+                    Re**2
+                    + slant_range**2
+                    + 2.0 * slant_range * Re * numpy.sin(numpy.radians(elevation))
+                )
+                - Re
+            )
 
-        if (slant_range**2) / 4. - altitude ** 2 >= 0:
-            gsSlantRange = Re * \
-                numpy.arcsin(numpy.sqrt(slant_range ** 2 / 4. - altitude ** 2) / Re)
+        if (slant_range**2) / 4.0 - altitude**2 >= 0:
+            gsSlantRange = Re * numpy.arcsin(
+                numpy.sqrt(slant_range**2 / 4.0 - altitude**2) / Re
+            )
             # From Bristow et al. [1994]
         else:
             gsSlantRange = -1
 
         return gsSlantRange
 
-
     def slantRange(self, frang, rsep, recrise, range_gate, center=True):
-        """ Calculate slant range
+        """Calculate slant range
         Parameters
         ----------
         frang : (float)
@@ -448,11 +505,25 @@ class FoV(object):
 
         return srang
 
-
-    def calcFieldPnt(self, tr_glat, tr_glon, tr_alt, boresight, beam_off, slant_range,
-                     adjusted_sr=True, elevation=None, altitude=None, hop=None,
-                     model=None, coords='geo', gs_loc="G", max_vh=400.0,
-                     fov_dir='front', eval_loc=False):
+    def calcFieldPnt(
+        self,
+        tr_glat,
+        tr_glon,
+        tr_alt,
+        boresight,
+        beam_off,
+        slant_range,
+        adjusted_sr=True,
+        elevation=None,
+        altitude=None,
+        hop=None,
+        model=None,
+        coords="geo",
+        gs_loc="G",
+        max_vh=400.0,
+        fov_dir="front",
+        eval_loc=False,
+    ):
         """Calculate coordinates of field point given the radar coordinates and
         boresight, the pointing direction deviation from boresight and elevation
         angle, and the field point slant range and altitude. Either the elevation
@@ -515,8 +586,8 @@ class FoV(object):
 
         Shameless Ripoff from DaViTPy
         """
-    #     import sys
-    #     sys.path.append('../utils/')
+        #     import sys
+        #     sys.path.append('../utils/')
         import geoPack
         import model_vheight as vhm
 
@@ -529,7 +600,7 @@ class FoV(object):
         xalt = numpy.nan
         calt = None
         if model is not None:
-            if model in ['IS', 'GS', 'S']:
+            if model in ["IS", "GS", "S"]:
                 # The standard model can be used with or without an input altitude
                 # or elevation.  Returns an altitude that has been adjusted to
                 # comply with common scatter distributions
@@ -540,9 +611,14 @@ class FoV(object):
                     else:
                         hop = 0.5 if model == "IS" else 1.0
 
-                xalt = vhm.standard_vhm(slant_range, adjusted_sr=adjusted_sr,
-                                        max_vh=max_vh, hop=hop, alt=altitude,
-                                        elv=elevation)
+                xalt = vhm.standard_vhm(
+                    slant_range,
+                    adjusted_sr=adjusted_sr,
+                    max_vh=max_vh,
+                    hop=hop,
+                    alt=altitude,
+                    elv=elevation,
+                )
             else:
                 # The Chisham model uses only the total slant range to determine
                 # altitude based on years of backscatter data at SAS.  Performs
@@ -607,7 +683,7 @@ class FoV(object):
             maxn = 30
             hdel = 100.0
             htol = 0.5
-            if (slant_range >= 800.0 and model != 'GS') or shop > 1.0:
+            if (slant_range >= 800.0 and model != "GS") or shop > 1.0:
                 htol = 5.0
             n = 0
             while n < maxn:
@@ -615,36 +691,48 @@ class FoV(object):
                 if calt is not None:
                     # Adjust elevation angle for any hop > 1 (Chisham et al. 2008)
                     pos_dist = rad_pos + calt
-                    phi = numpy.arccos((tr_dist**2 + pos_dist**2 - asr**2) /
-                                    (2.0 * tr_dist * pos_dist))
-                    beta = numpy.arcsin((tr_dist * numpy.sin(phi / (shop * 2.0))) /
-                                     (asr / (shop * 2.0)))
+                    phi = numpy.arccos(
+                        (tr_dist**2 + pos_dist**2 - asr**2)
+                        / (2.0 * tr_dist * pos_dist)
+                    )
+                    beta = numpy.arcsin(
+                        (tr_dist * numpy.sin(phi / (shop * 2.0))) / (asr / (shop * 2.0))
+                    )
                     tel = numpy.pi / 2.0 - beta - phi / (shop * 2.0)
 
                     if xalt == calt:
-                        xalt = numpy.sqrt(tr_rad**2 + asr**2 + 2.0 * asr * tr_rad *
-                                       numpy.sin(tel)) - tr_rad
+                        xalt = (
+                            numpy.sqrt(
+                                tr_rad**2
+                                + asr**2
+                                + 2.0 * asr * tr_rad * numpy.sin(tel)
+                            )
+                            - tr_rad
+                        )
                     tel = numpy.degrees(tel)
                 else:
                     # pointing elevation (spherical Earth value) [degree]
-                    tel = numpy.arcsin(((rad_pos + xalt)**2 - tr_dist**2 - asr**2) /
-                                    (2.0 * tr_dist * asr))
+                    tel = numpy.arcsin(
+                        ((rad_pos + xalt) ** 2 - tr_dist**2 - asr**2)
+                        / (2.0 * tr_dist * asr)
+                    )
                     tel = numpy.degrees(tel)
 
                 # estimate off-array-normal azimuth (because it varies slightly
                 # with elevation) [degree]
                 boff = self.calcAzOffBore(tel, beam_off, fov_dir=fov_dir)
                 # pointing azimuth
-                taz = boresight + boff
+                taz = getattr(boresight, _BOFF) + boff
                 # calculate position of field point
-                geo_dict = geoPack.calcDistPnt(tr_glat, tr_glon, tr_alt,
-                                               dist=asr, el=tel, az=taz)
+                geo_dict = geoPack.calcDistPnt(
+                    tr_glat, tr_glon, tr_alt, dist=asr, el=tel, az=taz
+                )
 
                 # Update Earth radius
-                rad_pos = geo_dict['distRe']
+                rad_pos = geo_dict["distRe"]
 
                 # stop if the altitude is what we want it to be (or close enough)
-                new_hdel = abs(xalt - geo_dict['distAlt'])
+                new_hdel = abs(xalt - geo_dict["distAlt"])
                 if new_hdel <= htol or not eval_loc:
                     break
 
@@ -657,12 +745,12 @@ class FoV(object):
                 n += 1
 
             if n >= maxn:
-                estr = 'Accuracy on height calculation ({}) not '.format(htol)
-                estr = '{:s}reached quick enough. Returning nan, nan.'.format(estr)
+                estr = "Accuracy on height calculation ({}) not ".format(htol)
+                estr = "{:s}reached quick enough. Returning nan, nan.".format(estr)
                 logging.warning(estr)
                 return numpy.nan, numpy.nan
             else:
-                return geo_dict['distLat'], geo_dict['distLon']
+                return geo_dict["distLat"], geo_dict["distLon"]
         elif elevation is not None:
             # No projection model (i.e., the elevation or altitude is so good that
             # it gives you the proper projection by simple geometric
@@ -683,13 +771,13 @@ class FoV(object):
 
             # The tracing is done by calcDistPnt
             boff = self.calcAzOffBore(elevation, beam_off, fov_dir=fov_dir)
-            geo_dict = geoPack.calcDistPnt(tr_glat, tr_glon, tr_alt, dist=asr,
-                                           el=elevation, az=boresight + boff)
+            geo_dict = geoPack.calcDistPnt(
+                tr_glat, tr_glon, tr_alt, dist=asr, el=elevation, az=boresight + boff
+            )
 
-            return geo_dict['distLat'], geo_dict['distLon']
+            return geo_dict["distLat"], geo_dict["distLon"]
 
-
-    def calcAzOffBore(self, elevation, boff_zero, fov_dir='front'):
+    def calcAzOffBore(self, elevation, boff_zero, fov_dir="front"):
         """Calculate off-boresight azimuth as a function of elevation angle and
         zero-elevation off-boresight azimuth.
         See Milan et al. [1997] for more details on how this works.
@@ -707,27 +795,30 @@ class FoV(object):
             off-boresight azimuth [degree]
         """
         # Test to see where the true beam direction lies
-        bdir = numpy.cos(numpy.radians(boff_zero))**2 - numpy.sin(numpy.radians(elevation))**2
+        bdir = (
+            numpy.cos(numpy.radians(boff_zero)) ** 2
+            - numpy.sin(numpy.radians(elevation)) ** 2
+        )
 
         # Calculate the front fov azimuthal angle off the boresite
         if bdir < 0.0:
-            bore_offset = numpy.pi / 2.
+            bore_offset = numpy.pi / 2.0
         else:
-            tan_boff = numpy.sqrt(numpy.sin(numpy.radians(boff_zero))**2 / bdir)
+            tan_boff = numpy.sqrt(numpy.sin(numpy.radians(boff_zero)) ** 2 / bdir)
             bore_offset = numpy.arctan(tan_boff)
 
-    # Old version
-    #   if bdir < 0.0:
-    #       if boff_zero >= 0: boreOffset = numpy.pi/2.
-    #       else: boreOffset = -numpy.pi/2.
-    #   else:
-    #       tan_boff = numpy.sqrt(numpy.sin(numpy.radians(boff_zero))**2 / bdir)
-    #       if boff_zero >= 0: boreOffset = atan(tan_boff)
-    #       else: boreOffset = -atan(tan_boff)
+        # Old version
+        #   if bdir < 0.0:
+        #       if boff_zero >= 0: boreOffset = numpy.pi/2.
+        #       else: boreOffset = -numpy.pi/2.
+        #   else:
+        #       tan_boff = numpy.sqrt(numpy.sin(numpy.radians(boff_zero))**2 / bdir)
+        #       if boff_zero >= 0: boreOffset = atan(tan_boff)
+        #       else: boreOffset = -atan(tan_boff)
 
         # If the rear lobe is desired, adjust the azimuthal offset from the
         # boresite
-        if fov_dir is 'back':
+        if fov_dir is "back":
             bore_offset = numpy.pi - bore_offset
 
         # Correct the sign based on the sign of the zero-elevation off-boresight

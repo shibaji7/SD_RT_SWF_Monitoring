@@ -12,18 +12,20 @@ __email__ = "shibaji7@vt.edu"
 __status__ = "Research"
 
 import sys
+
 sys.path.extend(["py/"])
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import urlparse, unquote
-
-import pydarn
-from loguru import logger
 import datetime as dt
 import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import unquote, urlparse
+
 import numpy as np
 import pandas as pd
+import pydarn
+from loguru import logger
 from rad_fov import FoV
+
 
 def fetch_data_by_date(dn):
     with open("config/events/20150311T16.json", "r") as f: o = json.load(f)
@@ -146,4 +148,3 @@ def server(args=None):
     
 if __name__ == "__main__":
     server()    
-    pass

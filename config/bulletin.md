@@ -1,5 +1,5 @@
 ---
-title: SuperDARN Flare Bulletin for solar flare event of 11-March-2015
+title: SuperDARN Flare Bulletin for solar flare event of {day}-{Month}-{year}
 author: Chakraborty, S.
 
 ---
@@ -22,13 +22,25 @@ warnings.filterwarnings("ignore")
 import datetime as dt
 import matplotlib
 matplotlib.style.use(["science", "ieee"])
+
+import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Tahoma", "DejaVu Sans",
+                                   "Lucida Grande", "Verdana"]
 import sys, os
-sys.stdout = open(os.devnull, 'w')
-sys.stderr = open(os.devnull, 'w')
+sys.stdout = open(os.devnull, "w")
+sys.stderr = open(os.devnull, "w")
+sys.path.extend(["py/","py/geo/"])
 
-from sdcarto import *
+from fanUtils import Fan
 
-_ = FanPlots().plot_fov(dt.datetime(2015,3,11,16,20), ['bks','fhe','fhw'])
+
+edate = dt.datetime({year},{month},{day},{hour},{minute})
+rads = [{rads}]
+stime, etime = [dt.datetime({year},{month},{day},{shour}), 
+            dt.datetime({year},{month},{day},{ehour})]
+
+Fan(rads, edate).plot_fov()
 ```
 
 ## Analysis Report
@@ -44,30 +56,29 @@ matplotlib.style.use(["science", "ieee"])
 import matplotlib.pyplot as plt
 pd.options.display.max_rows = 10
 
-import goes
+from goes import GOES
 
-gx = goes.GOES().load_data().analyze_flare().plot_TS([dt.datetime(2015,3,11,16), dt.datetime(2015,3,11,17)])
-ptime, cls = gx.id_c, gx.c
-```
-
-```{python, echo=False} 
-print(f"We found an {cls}-class flare on {ptime.strftime('%H:%M UT %d %b %Y')}.")
+g = GOES([stime, etime])
+g.load_data()
+g.analyze_flare()
+g.plot_TS([stime, etime])
+ptime, cls = g.id_c, g.c
 ```
 
 > Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in [(Chakraborty et al. 2018)](https://doi.org/10.1002/2017RS006488).
 
 
-[comment]: # ```{python, echo=False}
-[comment]: # import sdc
-[comment]: # from IPython.display import display, Markdown
+> $3\times 3$ FoV plot showing overall progression of SWF.
+```{python, echo=False}
+create3X3summaryplot([stime, edate, etime], rads)
+```
 
-[comment]: # sd = sdc.SDAnalysis().fetch_parameters()
-[comment]: # display(Markdown(sd.parames.to_markdown()))
-[comment]: # _ = sd.plot_TS()
-[comment]: # ```
+> $3\times 1$ RTI plot showing overall progression of SWF along beam 7 of the radars.
 
-## Definitions:
-1. <ins>Solar Flare</ins> is a sudden intensification of solar brightness (specifically in the X–ray and EUV spectrum).
-2. <ins>Sudden Ionospheric Disturbance (SID)</ins> is sudden enhancement of plasma density in the dayside ionosphere.
-3. <ins>Shortwave Fadeout (SWF)</ins> is sudden increase in Radio-Wave Absorption in high frequency (HF) ranges (3-30 MHz).
-4. <ins>Sudden Frequency Deviation (SFD)</ins> is sudden change in Frequency of the traveling Radiowave or `Doppler Flash`.
+```{python, echo=False}
+import sdc
+from IPython.display import display, Markdown
+
+sd = sdc.SDAnalysis(dates=[stime, etime], rads=rads)
+_ = sd.plot_TS(7)
+```
