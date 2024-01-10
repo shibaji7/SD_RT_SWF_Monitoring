@@ -5,3 +5,8 @@ description: Solar Flare-driven SWF Monitoring
 plugins:
   - jekyll-remote-theme
 remote_theme: benbalter/retlab
+
+# Pages to include in header navigation
+nav_pages:
+  - index.html
+  - flarelist.md
