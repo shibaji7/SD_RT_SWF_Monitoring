@@ -1,2 +1,2 @@
-# VT SuperDARN / Solar Flare & SWF Monitoring Service
+# Solar Flare & SWF Monitoring Service
 
