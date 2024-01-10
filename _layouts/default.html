@@ -10,6 +10,7 @@
     {% if page.reload %}
     <meta name="turbo-visit-control" content="reload">
     {% endif %}
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preload" href="/assets/img/header.png" as="image" />
   </head>
   <body class="{{ page.layout }} post{{ page.id | slugify | prepend: "-"}} mt-2">
