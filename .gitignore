@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 # Local files
-*.png
 *tmp*
 *saved.models*
 *repo*
