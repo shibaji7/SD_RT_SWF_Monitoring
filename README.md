@@ -1,2 +1,2 @@
-# SD_RT_SWF_Monitoring
-SuperDARN Real-time SWF Monitoring System
+# VT SuperDARN / Solar Flare & SWF Monitoring Service
+
