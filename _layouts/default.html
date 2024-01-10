@@ -12,8 +12,6 @@
     {% endif %}
     <link href="{{ "/assets/css/app.css?v=" | append: site.github.build_revision | relative_url }}" rel="stylesheet" media="screen">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script defer src="{{ "/assets/js/flarelist.js?=" | append: site.github.build_revision | relative_url }}"></script>
-    <script defer src="{{ "/assets/js/app.js?=" | append: site.github.build_revision | relative_url }}"></script>
   </head>
   <body class="{{ page.layout }} post{{ page.id | slugify | prepend: "-"}} mt-2">
     <div class="container">

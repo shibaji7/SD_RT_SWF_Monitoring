@@ -85,7 +85,7 @@ generateCalendar = (month, year) => {
         calendar_days.appendChild(day)
     }
 }
-
+console.log(calendar)
 let month_list = calendar.querySelector('.month-list')
 
 month_names.forEach((e, index) => {
