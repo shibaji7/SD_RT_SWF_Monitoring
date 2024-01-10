@@ -1,4 +1,4 @@
-const EVENTS = [
+var EVENTS = [
     {
     'date': new Date('01/20/2021'),
     'color': 'green',
