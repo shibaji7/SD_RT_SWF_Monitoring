@@ -30,7 +30,7 @@ generateCalendar = (month, year) => {
 
     calendar_days.innerHTML = ''
 
-    let currDate = new Date('2021-10-27')
+    let currDate = new Date()
     if (month > 11 || month < 0) month = currDate.getMonth()
     if (!year) year = currDate.getFullYear()
 
