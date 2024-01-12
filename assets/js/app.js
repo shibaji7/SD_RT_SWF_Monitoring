@@ -70,9 +70,9 @@ generateCalendar = (month, year) => {
         day.addEventListener('click', function(e){
             let href = window.location.href.replace('calender.html', '')
             let date = e.target.innerHTML.replace(tag, '')
-            console.log(year, month, date)
             let month = first_day.getMonth() + 1
             let year = first_day.getFullYear()
+            console.log(year, month, date)
             if (month<=9){
                 month = '0' + month.toString()
             }
