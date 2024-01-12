@@ -79,7 +79,7 @@ generateCalendar = (month, year) => {
             if (date<=9){
                 date = '0' + date.toString()
             }
-            file = str(year)+str(month)+str(date)+".png";
+            file = year.toString()+month.toString()+date+".png";
             console.log(file)
             goes_img = "../assets/data/figures/goes/" + file;
             sd_img = "../assets/data/figures/rads/" + file;
