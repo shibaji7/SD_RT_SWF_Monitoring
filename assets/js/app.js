@@ -77,15 +77,18 @@ generateCalendar = (month, year) => {
             if (date<=9){
                 date = '0' + date.toString()
             }
-            folder = 'events/' + year + '-' + month + '-' + date + '/'
-            let summary_page = href + folder + 'summary.html'
-            console.log(summary_page)
-            location.assign(summary_page)
+            file = year+month+date+".png";
+            goes_img = "../assets/data/figures/goes/" + file;
+            sd_img = "../assets/data/figures/rads/" + file;
+            // folder = 'events/' + year + '-' + month + '-' + date + '/'
+            // let summary_page = href + folder + 'summary.html'
+            console.log(goes_img, sd_img);
+            // location.assign(summary_page)
+            document.querySelector('#goes_image').innerHTML= `<img data-month="${goes_img}">`;
         })
         calendar_days.appendChild(day)
     }
 }
-console.log(calendar)
 let month_list = calendar.querySelector('.month-list')
 
 month_names.forEach((e, index) => {
