@@ -72,7 +72,6 @@ generateCalendar = (month, year) => {
             let date = e.target.innerHTML.replace(tag, '')
             let month = first_day.getMonth() + 1
             let year = first_day.getFullYear()
-            console.log(year, month, date)
             if (month<=9){
                 month = '0' + month.toString()
             }
@@ -80,14 +79,13 @@ generateCalendar = (month, year) => {
                 date = '0' + date.toString()
             }
             file = year.toString()+month.toString()+date+".png";
-            console.log(file)
             goes_img = "../assets/data/figures/goes/" + file;
             sd_img = "../assets/data/figures/rads/" + file;
             // folder = 'events/' + year + '-' + month + '-' + date + '/'
             // let summary_page = href + folder + 'summary.html'
             console.log(goes_img, sd_img);
             // location.assign(summary_page)
-            document.querySelector('#goes_image').innerHTML= `<img data-month="${goes_img}">`;
+            document.querySelector('#goes_image').innerHTML = `<img data-month="${goes_img}">`;
         })
         calendar_days.appendChild(day)
     }
