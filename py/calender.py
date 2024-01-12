@@ -37,7 +37,7 @@ def create_flare_list_file(file, start_date, end_date):
             e = events[events.date == d]
             if len(e) > 0:
                 du = pd.Timestamp(d).to_pydatetime().strftime("%m/%d/%Y")
-                date.append(pd.Timestamp(d).to_pydatetime().strftime("%Y-%m-%d"))
+                date.append(pd.Timestamp(d).to_pydatetime())
                 col = "green"
                 if "M" in e.clx.tolist():
                     col = "yellow"
@@ -61,7 +61,7 @@ def create_flare_list_for_calender(year_start):
         if year == end_date.year:
             e, code = create_flare_list_file(
                     file, dt.datetime(year, 1, 1), 
-                    dt.datetime(year, 12, 31)
+                    end_date
                 )
             events = pd.concat([events, e])
             color_codes = pd.concat([color_codes, code])
