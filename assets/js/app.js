@@ -23,6 +23,7 @@ getFebDays = (year) => {
 }
 
 generateCalendar = (month, year) => {
+    console.log(year, month)
     let calendar_days = calendar.querySelector('.calendar-days')
     let calendar_header_year = calendar.querySelector('#year')
 
@@ -37,7 +38,7 @@ generateCalendar = (month, year) => {
     let curr_month = `${month_names[month]}`
     month_picker.innerHTML = curr_month
     calendar_header_year.innerHTML = year
-
+    console.log(year, month)
     // get first day of month
     
     let first_day = new Date(year, month, 1)
