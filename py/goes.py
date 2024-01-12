@@ -12,7 +12,7 @@ __email__ = "shibaji7@vt.edu"
 __status__ = "Research"
 
 import datetime as dt
-
+import os
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,7 +25,7 @@ from sunpy.net import attrs as a
 
 def setup(science=True):
     if science:
-        plt.style.use(["science", "ieee"])
+        import mplstyle
         plt.rcParams.update(
             {
                 "figure.figsize": np.array([8, 6]),
@@ -166,8 +166,8 @@ class FlareTS(object):
         """
         setup()
         dates = dates if dates else self.dates
-        fig = plt.figure(figsize=(7, 3), dpi=150)
-        ax = fig.add_subplot(111)
+        self.fig = plt.figure(figsize=(7, 3), dpi=150)
+        ax = self.fig.add_subplot(111)
         ax.set_xlabel("Time (UT)", fontdict={"size": 12, "fontweight": "bold"})
         ax.set_ylabel(
             r"Irradiance ($W/m^2$)", fontdict={"size": 12, "fontweight": "bold"}
@@ -203,7 +203,7 @@ class FlareTS(object):
             ls="-",
             lw=1.0,
             alpha=0.7,
-            label=r"$\lambda\sim (0.05-0.4)$ nm",
+            label=r"$\lambda_0\sim (0.05-0.4)$ nm",
         )
         ax.semilogy(
             self.dfs["goes"].time.tolist()[:N],
@@ -212,7 +212,7 @@ class FlareTS(object):
             ls="-",
             lw=1.0,
             alpha=0.7,
-            label=r"$\lambda\sim (0.1-0.8)$ nm",
+            label=r"$\lambda_1\sim (0.1-0.8)$ nm",
         )
         ax.legend(loc=1)
         ax.set_xlim(dates)
@@ -272,6 +272,12 @@ class FlareTS(object):
                 va="center",
                 fontdict={"size": 10, "color": "k"},
             )
+        return
+
+    def save(self, figname=None, folder="assets/data/figures/goes/"):
+        os.makedirs(folder, exist_ok=True)
+        figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
+        self.fig.savefig(figname, bbox_inches="tight")
         return
 
 

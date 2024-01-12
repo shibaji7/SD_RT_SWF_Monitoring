@@ -51,7 +51,7 @@ def smooth(x, window_len=101, window="hanning"):
 
 def setup(science=True):
     if science:
-        plt.style.use(["science", "ieee"])
+        import mplstyle
         plt.rcParams.update(
             {
                 "figure.figsize": np.array([8, 6]),
@@ -601,8 +601,8 @@ class SDAnalysis(object):
         """
         setup()
         self.get_SD_data()
-        fig = plt.figure(figsize=(6, 2.5), dpi=150)
-        ax = fig.add_subplot(111)
+        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
+        ax = self.fig.add_subplot(111)
         ax.set_ylabel(r"Echoes ($<E>$)", fontdict={"size": 12, "fontweight": "bold"})
         ax.xaxis.set_major_formatter(mdates.DateFormatter(r"%H^{%M}"))
         hours = mdates.HourLocator(byhour=range(0, 24, 1))
@@ -646,5 +646,11 @@ class SDAnalysis(object):
                 ax.axvline(timings["end_blackout"], color="b", ls="-", lw=0.8)
             if "recovery" in timings:
                 ax.axvline(timings["recovery"], color="g", ls="-", lw=0.8)
-        fig.subplots_adjust(hspace=0.2)
+        self.fig.subplots_adjust(hspace=0.2)
         return timings
+
+    def save(self, figname=None, folder="assets/data/figures/rads/"):
+        os.makedirs(folder, exist_ok=True)
+        figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
+        self.fig.savefig(figname, bbox_inches="tight")
+        return
