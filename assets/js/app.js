@@ -105,7 +105,7 @@ month_picker.onclick = () => {
     month_list.classList.add('show')
 }
 
-let currDate = new Date('2021-10-27')
+let currDate = new Date()
 
 let curr_month = {value: currDate.getMonth()}
 let curr_year = {value: currDate.getFullYear()}
