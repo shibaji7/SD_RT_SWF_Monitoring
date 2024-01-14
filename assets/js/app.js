@@ -85,7 +85,7 @@ generateCalendar = (month, year) => {
             // let summary_page = href + folder + 'summary.html'
             console.log(goes_img, sd_img);
             // location.assign(summary_page)
-            document.querySelector('#goes_image').innerHTML = `<img data-month="${goes_img}">`;
+            document.querySelector('#goes_image').innerHTML = `<img src="${goes_img}" alt="GOES Flare Info">`;
         })
         calendar_days.appendChild(day)
     }
