@@ -91,7 +91,7 @@ class DRAP(object):
         # ax.mark_latitudes(plt_lats, fontsize="small", color="darkred")
         # ax.mark_longitudes(mark_lons, fontsize="small", color="darkblue")
         self.proj = proj
-        self.geo = cartopy.crs.PlateCarree(-90.0)
+        self.geo = cartopy.crs.PlateCarree()
         ax.text(
             -0.02,
             0.99,
