@@ -89,7 +89,7 @@ def create_flare_list_for_calender(year_start):
     'date': new Date('fx_date'),
     'color': 'fx_color',
     },"""
-    txt = "const EVENTS = ["
+    txt = "var EVENTS = ["
     for i, e in color_codes.iterrows():
         txt += brc.replace("fx_color", e.color).replace("fx_date", 
             e.date.strftime("%m/%d/%Y"))

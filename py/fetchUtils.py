@@ -423,6 +423,11 @@ class FetchData(object):
                 fov.save(file)
                 fov.close()
         return
+    
+    
+    def close(self):
+        plt.close()
+        return
 
     @staticmethod
     def fetch(

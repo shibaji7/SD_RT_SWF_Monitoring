@@ -21,10 +21,8 @@ from calender import create_flare_list_for_calender
 from goes import FlareTS
 from fetchUtils import SDAnalysis
 
-def run_event(args):
-    """
-    Create simulate .md files
-    """
+def run_one_event(args):
+    print(f"\n\t Date->{args.date}")
     rads = args.rads.split("-")
     color_codes = pd.read_csv(f"assets/data/FL.{args.date.year}_color.csv", parse_dates=["date"])
     event = pd.read_csv(
@@ -45,15 +43,34 @@ def run_event(args):
             event.event_peaktime.iloc[0],
             event.event_endtime.iloc[0],
         )
-        start_time = start_time.replace(minute=0).replace(hour=end_time.hour-1)
-        end_time = end_time.replace(minute=0).replace(hour=end_time.hour+1)
+        print(f"\t Dates->{start_time},{peak_time},{end_time}")
+        start_time = start_time.replace(minute=0) - dt.timedelta(hours=1)
+        end_time = end_time.replace(minute=0) + dt.timedelta(hours=1)
         
         g = FlareTS([start_time, end_time])
         g.plot_TS()
         g.save()
+        g.close()
         sd = SDAnalysis(dates=[start_time, end_time], rads=rads)
         timings = sd.plot_summary_TS()
         sd.save()
+        sd.close()
+
+def run_event(args):
+    """
+    Create simulate .md files
+    """
+    if args.whole_month:
+        date, month = (
+            args.date.replace(day=1),
+            args.date.month
+        )
+        while (date.month==month):
+            args.date = date
+            run_one_event(args)
+            date += dt.timedelta(days=1)
+    else:
+        run_one_event(args)
     return
 
 
@@ -67,6 +84,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+    )
+    parser.add_argument(
+        "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
     )
     parser.add_argument(
         "-r", "--rads", default="fhe-fhw-bks", type=str, help="Radars / Sep: '-', fhe-fhw-..."

@@ -1,4 +1,4 @@
-const EVENTS = [
+var EVENTS = [
     {
     'date': new Date('01/20/2021'),
     'color': 'green',
@@ -3149,7 +3149,7 @@ const EVENTS = [
     },
     {
     'date': new Date('12/31/2023'),
-    'color': 'yellow',
+    'color': 'red',
     },
     {
     'date': new Date('01/01/2024'),

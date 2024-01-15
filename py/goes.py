@@ -277,7 +277,11 @@ class FlareTS(object):
     def save(self, figname=None, folder="assets/data/figures/goes/"):
         os.makedirs(folder, exist_ok=True)
         figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
-        self.fig.savefig(figname, bbox_inches="tight")
+        self.fig.savefig(figname, bbox_inches="tight")        
+        return
+
+    def close(self):
+        plt.close()
         return
 
 
