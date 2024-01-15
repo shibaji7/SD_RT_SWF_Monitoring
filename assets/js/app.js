@@ -95,9 +95,7 @@ generateCalendar = (month, year) => {
 }
 
 click_back = () =>{
-    document.getElementById('calendar_pane').style.display = "block";
-    document.getElementById('button_image').style.display = "none";
-    history.back();
+    location.reload();
 }
 let month_list = calendar.querySelector('.month-list')
 
