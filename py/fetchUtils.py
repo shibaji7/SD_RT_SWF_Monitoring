@@ -601,7 +601,7 @@ class SDAnalysis(object):
         """
         setup()
         self.get_SD_data()
-        self.fig = plt.figure(figsize=(7, 3), dpi=150)
+        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
         ax = self.fig.add_subplot(111)
         ax.set_ylabel(r"Echoes ($<E>$)", fontdict={"size": 12, "fontweight": "bold"})
         ax.xaxis.set_major_formatter(mdates.DateFormatter(r"%H^{%M}"))
