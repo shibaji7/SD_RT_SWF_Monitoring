@@ -11,6 +11,7 @@ __maintainer__ = "Chakraborty, S."
 __email__ = "shibaji7@vt.edu"
 __status__ = "Research"
 
+import os
 import argparse
 import datetime as dt
 import pandas as pd
@@ -20,41 +21,45 @@ sys.path.extend(["py/", "py/geo/"])
 from calender import create_flare_list_for_calender
 from goes import FlareTS
 from fetchUtils import SDAnalysis
+from drap import DRAP
 
 def run_one_event(args):
     print(f"\n\t Date->{args.date}")
-    rads = args.rads.split("-")
-    color_codes = pd.read_csv(f"assets/data/FL.{args.date.year}_color.csv", parse_dates=["date"])
-    event = pd.read_csv(
-        f"assets/data/FL.{args.date.year}.csv", 
-        parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
-    )
-    color_codes = color_codes[color_codes.date==args.date]
-    if len(color_codes) > 0:
-        clas = "C"
-        if color_codes.color.iloc[0] == "red": clas = "X"
-        if color_codes.color.iloc[0] == "yellow": clas = "M"
-        event = event[
-            (event.date==args.date)
-            & (event.clx==clas)
-        ]
-        start_time, peak_time, end_time = (
-            event.event_starttime.iloc[0],
-            event.event_peaktime.iloc[0],
-            event.event_endtime.iloc[0],
+    file = f"assets/data/figures/goes/{args.date.strftime('%Y%m%d')}.png"
+    if not os.path.exists(file):
+        rads = args.rads.split("-")
+        color_codes = pd.read_csv(f"assets/data/FL.{args.date.year}_color.csv", parse_dates=["date"])
+        event = pd.read_csv(
+            f"assets/data/FL.{args.date.year}.csv", 
+            parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
         )
-        print(f"\t Dates->{start_time},{peak_time},{end_time}")
-        start_time = start_time.replace(minute=0) - dt.timedelta(hours=1)
-        end_time = end_time.replace(minute=0) + dt.timedelta(hours=1)
-        
-        g = FlareTS([start_time, end_time])
-        g.plot_TS()
-        g.save()
-        g.close()
-        sd = SDAnalysis(dates=[start_time, end_time], rads=rads)
-        timings = sd.plot_summary_TS()
-        sd.save()
-        sd.close()
+        color_codes = color_codes[color_codes.date==args.date]
+        if len(color_codes) > 0:
+            clas = "C"
+            if color_codes.color.iloc[0] == "red": clas = "X"
+            if color_codes.color.iloc[0] == "yellow": clas = "M"
+            event = event[
+                (event.date==args.date)
+                & (event.clx==clas)
+            ]
+            start_time, peak_time, end_time = (
+                event.event_starttime.iloc[0],
+                event.event_peaktime.iloc[0],
+                event.event_endtime.iloc[0],
+            )
+            print(f"\t Dates->{start_time},{peak_time},{end_time}")
+            start_time = start_time.replace(minute=0) - dt.timedelta(hours=1)
+            end_time = end_time.replace(minute=0) + dt.timedelta(hours=1)
+            
+            g = FlareTS([start_time, end_time])
+            g.plot_TS()
+            g.save()
+            g.close()
+            sd = SDAnalysis(dates=[start_time, end_time], rads=rads)
+            timings = sd.plot_summary_TS()
+            sd.save()
+            sd.close()
+    return
 
 def run_event(args):
     """
@@ -73,6 +78,13 @@ def run_event(args):
         run_one_event(args)
     return
 
+def run_DRAP_event(args):
+    event = pd.read_csv(
+        f"assets/data/FL.{args.date.year}.csv", 
+        parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
+    )
+    #d = DRAP()
+    return
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -96,6 +108,8 @@ if __name__ == "__main__":
         print("     ", k, "->", str(vars(args)[k]))
     if args.method == "EA":
         run_event(args)
+    elif args.method == "DRAP":
+        run_DRAP_event(args)
     elif args.method == "FL":
         create_flare_list_for_calender(args.year)
     else:

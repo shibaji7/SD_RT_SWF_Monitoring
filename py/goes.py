@@ -166,7 +166,7 @@ class FlareTS(object):
         """
         setup()
         dates = dates if dates else self.dates
-        self.fig = plt.figure(figsize=(7, 3), dpi=150)
+        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
         ax = self.fig.add_subplot(111)
         ax.set_xlabel("Time (UT)", fontdict={"size": 12, "fontweight": "bold"})
         ax.set_ylabel(

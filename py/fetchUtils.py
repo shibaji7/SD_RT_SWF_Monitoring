@@ -423,11 +423,6 @@ class FetchData(object):
                 fov.save(file)
                 fov.close()
         return
-    
-    
-    def close(self):
-        plt.close()
-        return
 
     @staticmethod
     def fetch(
@@ -606,7 +601,7 @@ class SDAnalysis(object):
         """
         setup()
         self.get_SD_data()
-        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
+        self.fig = plt.figure(figsize=(7, 3), dpi=150)
         ax = self.fig.add_subplot(111)
         ax.set_ylabel(r"Echoes ($<E>$)", fontdict={"size": 12, "fontweight": "bold"})
         ax.xaxis.set_major_formatter(mdates.DateFormatter(r"%H^{%M}"))
@@ -658,4 +653,8 @@ class SDAnalysis(object):
         os.makedirs(folder, exist_ok=True)
         figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
         self.fig.savefig(figname, bbox_inches="tight")
+        return
+    
+    def close(self):
+        plt.close()
         return
