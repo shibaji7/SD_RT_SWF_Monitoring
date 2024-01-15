@@ -93,6 +93,12 @@ generateCalendar = (month, year) => {
         calendar_days.appendChild(day)
     }
 }
+
+click_back = () =>{
+    document.getElementById('calendar_pane').style.display = "block";
+    document.getElementById('button_image').style.display = "none";
+    history.back();
+}
 let month_list = calendar.querySelector('.month-list')
 
 month_names.forEach((e, index) => {
