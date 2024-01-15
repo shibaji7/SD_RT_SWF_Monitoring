@@ -67,7 +67,7 @@ class DRAP(object):
         return sza
 
     def draw_image(self, date, lat_grd, lon_grd, absp):
-        self.fig = plt.figure(dpi=180)
+        self.fig = plt.figure(dpi=240)
         proj = cartopy.crs.PlateCarree(-90.0)
         #proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
         ax = self.fig.add_subplot(
@@ -78,7 +78,7 @@ class DRAP(object):
             plot_date=self.date,
         )
         ax.overaly_coast_lakes(lw=0.4, alpha=0.4)
-        ax.set_extent([-180, 180, 0, 90], crs=cartopy.crs.PlateCarree())
+        ax.set_extent([-180, 180, -90, 90], crs=cartopy.crs.PlateCarree())
         # plt_lons = np.arange(-180, 181, 15)
         # mark_lons = np.arange(-180, 181, 30)
         # plt_lats = np.arange(40, 90, 10)
