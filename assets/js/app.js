@@ -1,4 +1,4 @@
-let calendar = document.querySelector('.calendar')
+var calendar = document.querySelector('.calendar')
 
 fetchEvent = (date) => {
     let color = 'white'
