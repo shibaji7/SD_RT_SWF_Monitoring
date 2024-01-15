@@ -68,7 +68,7 @@ class DRAP(object):
 
     def draw_image(self, date, lat_grd, lon_grd, absp):
         self.fig = plt.figure(dpi=240)
-        proj = cartopy.crs.PlateCarree(-90.0)
+        proj = cartopy.crs.PlateCarree()
         #proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
         ax = self.fig.add_subplot(
             111,
