@@ -38,42 +38,12 @@ def run_summary_plots_event_analysis(args):
     return
 
 def run_DRAP_event(args):
-    print(f"\n\t Date->{args.date}")
-    file = f"assets/data/figures/drap/{args.date.strftime('%Y%m%d')}.png"
-    if not os.path.exists(file):
-        event = pd.read_csv(
-            f"assets/data/FL.{args.date.year}.csv", 
-            parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
-        )
-        event = event[event.date==args.date]
-        color_codes = pd.read_csv(f"assets/data/FL.{args.date.year}_color.csv", parse_dates=["date"])
-        event = pd.read_csv(
-            f"assets/data/FL.{args.date.year}.csv", 
-            parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
-        )
-        color_codes = color_codes[color_codes.date==args.date]
-        if len(color_codes) > 0:
-            clas = "C"
-            if color_codes.color.iloc[0] == "red": clas = "X"
-            if color_codes.color.iloc[0] == "yellow": clas = "M"
-            event = event[
-                (event.date==args.date)
-                & (event.clx==clas)
-            ]
-            start_time, peak_time, end_time = (
-                event.event_starttime.iloc[0],
-                event.event_peaktime.iloc[0],
-                event.event_endtime.iloc[0],
-            )
-            print(f"\t Dates->{start_time},{peak_time},{end_time}")
-            start_time = start_time.replace(minute=0) - dt.timedelta(hours=1)
-            end_time = end_time.replace(minute=0) + dt.timedelta(hours=1)
-            dct = event.iloc[0].to_dict()
-            dct["event_starttime"], dct["event_peaktime"], dct["event_endtime"] = (
-                start_time, peak_time, end_time
-            )
-            dct["coord"] = "geo"
-            d = DRAP(dct)
+    dates = utils.create_date_list(args.date, args.whole_month)
+    events, color_codes =  utils.read_events(args.date)
+    for date in dates:
+        event = utils.select_event_by_color_code_date(events, color_codes, date)
+        event.update(args.__dict__)
+        drap = DRAP(event)
     return
 
 if __name__ == "__main__":
@@ -82,7 +52,7 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
+        "-m", "--method", default="DRAP", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
     )
     parser.add_argument(
         "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"

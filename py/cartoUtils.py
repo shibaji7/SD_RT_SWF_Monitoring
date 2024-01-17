@@ -68,7 +68,7 @@ class SDCarto(GeoAxes):
         return
 
     def draw_DN_terminator(self, date):
-        self.add_feature(Nightshade(date, alpha=0.5), dn_term=True)
+        self.add_feature(Nightshade(date, alpha=0.2), dn_term=True)
         return
 
     def overaly_coast_lakes(self, resolution="50m", color="black", **kwargs):
