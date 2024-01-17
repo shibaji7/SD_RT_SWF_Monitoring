@@ -42,7 +42,7 @@ class Summary(object):
             goes_file = f"assets/data/figures/goes/{file}",
             sd_file = f"assets/data/figures/rads/{file}",
             summary_file = f"assets/data/figures/sd_summary/{file}",
-            summary_dn_file = f"assets/data/figures/sd_summary_dn/{file}",
+            summary_dn_file = f"assets/data/figures/sd_dn_summary/{file}",
         )
         return
 
@@ -75,12 +75,12 @@ class Summary(object):
             self.sd.close()
             # Summary plot
             self.__run_summary_map_plots__()
-            #self.__run_summary_plots__()
+            self.__run_summary_plots__()
         return
 
     def __run_summary_map_plots__(self):
         # Create radars with overlaying plots [at peak]
-        folder = f"assets/data/figures/sd_summary_dn/"
+        folder = f"assets/data/figures/sd_dn_summary/"
         from cartopy.feature.nightshade import Nightshade
         os.makedirs(folder, exist_ok=True)
         self.fig = plt.figure(dpi=300, figsize=(2,3))

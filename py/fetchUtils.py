@@ -654,7 +654,6 @@ class SDAnalysis(object):
                 t.to_pydatetime().astimezone(timezone("US/Central")) 
                 for t in df.time.tolist()
             ]
-            print(local_times)
             ax.plot(df.time, df.v, "ko", ms=1.2, alpha=0.8)
             ax.plot(df.time, smooth(np.array(df.v)), "r-", lw=0.8, alpha=0.8)
             twax = ax.twiny()
