@@ -106,6 +106,15 @@ class Summary(object):
         self.proj = proj
         self.geo = cartopy.crs.PlateCarree()
         ax.text(
+            0.05,
+            1.05,
+            f"Flare Peak: {self.event_peaktime.to_pydatetime().strftime('%Y-%m-%d %H:%M')} UT",
+            ha="left",
+            va="center",
+            transform=ax.transAxes,
+            fontsize=4,
+        )
+        ax.text(
             -0.02,
             0.99,
             "Coord: Geo",

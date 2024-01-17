@@ -649,9 +649,11 @@ class SDAnalysis(object):
         if len(df) > 0:
             df = df.groupby("time").count().reset_index()
             timings = self.fetch_parameters(smooth(np.array(df.v)), df.time.tolist())
-            from pytz import timezone
+            import pytz
+            cet = pytz.timezone('US/Central')
+            offset = cet.utcoffset(df.time.tolist()[0],is_dst = True)
             local_times = [
-                t.to_pydatetime().astimezone(timezone("US/Central")) 
+                t + offset
                 for t in df.time.tolist()
             ]
             ax.plot(df.time, df.v, "ko", ms=1.2, alpha=0.8)

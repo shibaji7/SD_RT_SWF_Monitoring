@@ -49,6 +49,9 @@ class DRAP(object):
         for i, lat in enumerate(lats):
             for j, lon in enumerate(lons):
                 absp[i,j] = self.calc_absorption(lat, lon, date, F)
+
+        drap_absp = np.zeros_like(lat_grd)*np.nan
+        
         self.draw_image(date, lat_grd, lon_grd, absp)
         return
 
@@ -79,17 +82,6 @@ class DRAP(object):
         )
         ax.overaly_coast_lakes(lw=0.4, alpha=0.4)
         ax.set_extent([-180, 180, -90, 90], crs=cartopy.crs.PlateCarree())
-        # plt_lons = np.arange(-180, 181, 15)
-        # mark_lons = np.arange(-180, 181, 30)
-        # plt_lats = np.arange(40, 90, 10)
-        # gl = ax.gridlines(crs=cartopy.crs.PlateCarree(), linewidth=0.5)
-        # gl.xlocator = mticker.FixedLocator(plt_lons)
-        # gl.ylocator = mticker.FixedLocator(plt_lats)
-        # gl.xformatter = LONGITUDE_FORMATTER
-        # gl.yformatter = LATITUDE_FORMATTER
-        # gl.n_steps = 90
-        # ax.mark_latitudes(plt_lats, fontsize="small", color="darkred")
-        # ax.mark_longitudes(mark_lons, fontsize="small", color="darkblue")
         self.proj = proj
         self.geo = cartopy.crs.PlateCarree()
         ax.text(
