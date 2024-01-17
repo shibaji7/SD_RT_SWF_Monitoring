@@ -22,6 +22,13 @@ getFebDays = (year) => {
     return isLeapYear(year) ? 29 : 28
 }
 
+set_inner_html = (id_str, file, alter) => {
+    var div = document.querySelector(id_str);
+    if (div){
+        div.innerHTML = `<img src="${file}" alt="${alter}">`;
+    }
+}
+
 generateCalendar = (month, year) => {
     console.log(year, month)
     var calendar_days = calendar.querySelector('.calendar-days')
@@ -84,25 +91,27 @@ generateCalendar = (month, year) => {
             summary_img = "../assets/data/figures/sd_summary/" + file;
             summary_dn_img = "../assets/data/figures/sd_dn_summary/" + file;
             drap_img = "../assets/data/figures/drap/" + file;
-            // folder = 'events/' + year + '-' + month + '-' + date + '/'
-            // var summary_page = href + folder + 'summary.html'
-            console.log(goes_img, sd_img);
-            // location.assign(summary_page)
+            
             document.getElementById('calendar_pane').style.display = "none";
             document.getElementById('button_image').style.display = "block";
-            document.querySelector('#goes_image').innerHTML = `<img src="${goes_img}" alt="GOES Flare Info">`;
-            summary_div = document.querySelector('#summary_image');
-            summary_dn_div = document.querySelector('#summary_dn_image');
-            ndrap_div = document.querySelector('#drap_image');
-            if (summary_div){
-                summary_div.innerHTML = `<img src="${summary_img}" alt="SD SWF Info">`;
-            }
-            if (summary_dn_div){
-                summary_dn_div.innerHTML = `<img src="${summary_dn_img}" alt="SD SWF Info">`;
-            }
-            if (ndrap_div){
-                ndrap_div.innerHTML = `<img src="${drap_img}" alt="SD SWF Info">`;
-            }
+            
+            set_inner_html('#goes_image', goes_img, "GOES Info");
+            set_inner_html('#summary_image', summary_img, "Summary Info");
+            set_inner_html('#summary_dn_image', summary_dn_img, "DN Info");
+            set_inner_html('#drap_image', drap_img, "DRAP Info");
+            // goes_div = document.querySelector('#goes_image');
+            // summary_div = document.querySelector('#summary_image');
+            // summary_dn_div = document.querySelector('#summary_dn_image');
+            // ndrap_div = document.querySelector('#drap_image');
+            // if (summary_div){
+            //     summary_div.innerHTML = `<img src="${summary_img}" alt="SD SWF Info">`;
+            // }
+            // if (summary_dn_div){
+            //     summary_dn_div.innerHTML = `<img src="${summary_dn_img}" alt="SD SWF Info">`;
+            // }
+            // if (ndrap_div){
+            //     ndrap_div.innerHTML = `<img src="${drap_img}" alt="SD SWF Info">`;
+            // }
             
         })
         calendar_days.appendChild(day)
