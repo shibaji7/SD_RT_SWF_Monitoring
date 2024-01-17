@@ -81,6 +81,8 @@ generateCalendar = (month, year) => {
             file = year.toString()+month.toString()+date+".png";
             goes_img = "../assets/data/figures/goes/" + file;
             sd_img = "../assets/data/figures/rads/" + file;
+            summary_img = "../assets/data/figures/sd_summary/" + file;
+            summary_dn_img = "../assets/data/figures/sd_dn_summary/" + file;
             drap_img = "../assets/data/figures/drap/" + file;
             // folder = 'events/' + year + '-' + month + '-' + date + '/'
             // var summary_page = href + folder + 'summary.html'
@@ -89,10 +91,14 @@ generateCalendar = (month, year) => {
             document.getElementById('calendar_pane').style.display = "none";
             document.getElementById('button_image').style.display = "block";
             document.querySelector('#goes_image').innerHTML = `<img src="${goes_img}" alt="GOES Flare Info">`;
-            sd_div = document.querySelector('#sd_image');
+            summary_div = document.querySelector('#summary_image');
+            summary_dn_div = document.querySelector('#summary_dn_image');
             ndrap_div = document.querySelector('#drap_image');
-            if (sd_div){
-                sd_div.innerHTML = `<img src="${sd_img}" alt="SD SWF Info">`;
+            if (summary_div){
+                summary_div.innerHTML = `<img src="${summary_img}" alt="SD SWF Info">`;
+            }
+            if (summary_dn_div){
+                summary_dn_div.innerHTML = `<img src="${summary_dn_img}" alt="SD SWF Info">`;
             }
             if (ndrap_div){
                 ndrap_div.innerHTML = `<img src="${drap_img}" alt="SD SWF Info">`;

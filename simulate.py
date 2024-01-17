@@ -18,64 +18,23 @@ import pandas as pd
 
 import sys
 sys.path.extend(["py/", "py/geo/"])
-from calender import create_flare_list_for_calender
-from goes import FlareTS
-from fetchUtils import SDAnalysis
+import utils
+from calender_list import create_flare_list_for_calender
 from drap import DRAP
+from summary import Summary
 
-def run_one_event(args):
-    print(f"\n\t Date->{args.date}")
-    file = f"assets/data/figures/goes/{args.date.strftime('%Y%m%d')}.png"
-    if not os.path.exists(file):
-        rads = args.rads.split("-")
-        color_codes = pd.read_csv(f"assets/data/FL.{args.date.year}_color.csv", parse_dates=["date"])
-        event = pd.read_csv(
-            f"assets/data/FL.{args.date.year}.csv", 
-            parse_dates=["date", "event_starttime", "event_peaktime", "event_endtime"]
-        )
-        color_codes = color_codes[color_codes.date==args.date]
-        if len(color_codes) > 0:
-            clas = "C"
-            if color_codes.color.iloc[0] == "red": clas = "X"
-            if color_codes.color.iloc[0] == "yellow": clas = "M"
-            event = event[
-                (event.date==args.date)
-                & (event.clx==clas)
-            ]
-            start_time, peak_time, end_time = (
-                event.event_starttime.iloc[0],
-                event.event_peaktime.iloc[0],
-                event.event_endtime.iloc[0],
-            )
-            print(f"\t Dates->{start_time},{peak_time},{end_time}")
-            start_time = start_time.replace(minute=0) - dt.timedelta(hours=1)
-            end_time = end_time.replace(minute=0) + dt.timedelta(hours=1)
-            
-            g = FlareTS([start_time, end_time])
-            g.plot_TS()
-            g.save()
-            g.close()
-            sd = SDAnalysis(dates=[start_time, end_time], rads=rads)
-            timings = sd.plot_summary_TS()
-            sd.save()
-            sd.close()
-    return
-
-def run_event(args):
+def run_summary_plots_event_analysis(args):
     """
     Create simulate .md files
     """
-    if args.whole_month:
-        date, month = (
-            args.date.replace(day=1),
-            args.date.month
-        )
-        while (date.month==month):
-            args.date = date
-            run_one_event(args)
-            date += dt.timedelta(days=1)
-    else:
-        run_one_event(args)
+    args.rads = args.rads.split("-")
+    dates = utils.create_date_list(args.date, args.whole_month)
+    events, color_codes =  utils.read_events(args.date)
+    for date in dates:
+        event = utils.select_event_by_color_code_date(events, color_codes, date)
+        event.update(args.__dict__)
+        summary = Summary(event)
+        summary.create_overlap_summary_plot()
     return
 
 def run_DRAP_event(args):
@@ -123,7 +82,7 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="DRAP", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
+        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
     )
     parser.add_argument(
         "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
@@ -138,7 +97,7 @@ if __name__ == "__main__":
     for k in vars(args).keys():
         print("     ", k, "->", str(vars(args)[k]))
     if args.method == "EA":
-        run_event(args)
+        run_summary_plots_event_analysis(args)
     elif args.method == "DRAP":
         run_DRAP_event(args)
     elif args.method == "FL":

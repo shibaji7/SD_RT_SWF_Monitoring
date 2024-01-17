@@ -596,13 +596,17 @@ class SDAnalysis(object):
         return self
 
     def plot_summary_TS(self):
+        setup()
+        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
+        ax = self.fig.add_subplot(111)
+        self.plot_summary_TS_from_axes(ax)
+        return
+
+    def plot_summary_TS_from_axes(self, ax, xlabel="Time (UT)"):
         """
         Plot time series data
         """
-        setup()
         self.get_SD_data()
-        self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
-        ax = self.fig.add_subplot(111)
         ax.set_ylabel(r"Echoes ($<E>$)", fontdict={"size": 12, "fontweight": "bold"})
         ax.xaxis.set_major_formatter(mdates.DateFormatter(r"%H^{%M}"))
         hours = mdates.HourLocator(byhour=range(0, 24, 1))
@@ -618,12 +622,22 @@ class SDAnalysis(object):
         text = r"Radars: [{}]".format(", ".join(self.rads))
         ax.text(
             0.05,
-            1.05,
+            0.95,
             text,
             ha="left",
             va="center",
             transform=ax.transAxes,
             fontdict={"size": 10, "fontweight": "bold"},
+        )
+        ax.text(
+            1.05,
+            0.99,
+            "SuperDARN",
+            ha="center",
+            va="top",
+            fontdict={"size": 12, "fontweight": "bold"},
+            transform=ax.transAxes,
+            rotation=90,
         )
 
         df = pd.DataFrame()
@@ -635,17 +649,45 @@ class SDAnalysis(object):
         if len(df) > 0:
             df = df.groupby("time").count().reset_index()
             timings = self.fetch_parameters(smooth(np.array(df.v)), df.time.tolist())
+            from pytz import timezone
+            local_times = [
+                t.to_pydatetime().astimezone(timezone("US/Central")) 
+                for t in df.time.tolist()
+            ]
+            print(local_times)
             ax.plot(df.time, df.v, "ko", ms=1.2, alpha=0.8)
             ax.plot(df.time, smooth(np.array(df.v)), "r-", lw=0.8, alpha=0.8)
+            twax = ax.twiny()
+            twax.xaxis.set_major_formatter(mdates.DateFormatter(r"%H^{%M}"))
+            twax.xaxis.set_ticks_position("bottom")
+            twax.spines["bottom"].set_position(("outward", 36))
+            twax.xaxis.set_label_position("bottom")
+            twax.set_xlabel("Time (US/CST)", fontdict={"size": 12, "fontweight": "bold"})
+            twax.plot(local_times, [np.nan]*len(local_times))
+            twax.set_xlim(local_times[0], local_times[-1])
             ax.axhline(timings["median"], color="b", ls="-", lw=0.5)
+            text = ""
             if "onset" in timings:
                 ax.axvline(timings["onset"], color="darkred", ls="-", lw=0.8)
+                text += f"O:{timings['onset'].strftime('%H:%M:%S')}, "
             if "start_blackout" in timings:
                 ax.axvline(timings["start_blackout"], color="k", ls="-", lw=0.8)
+                text += fr"$B_s$:{timings['start_blackout'].strftime('%H:%M:%S')}," + "\n"
             if "end_blackout" in timings:
                 ax.axvline(timings["end_blackout"], color="b", ls="-", lw=0.8)
+                text += fr" $B_e$:{timings['end_blackout'].strftime('%H:%M:%S')},"
             if "recovery" in timings:
                 ax.axvline(timings["recovery"], color="g", ls="-", lw=0.8)
+                text += f" R:{timings['recovery'].strftime('%H:%M:%S')}"
+            ax.text(
+                0.75,
+                1.1,
+                text,
+                ha="right",
+                va="center",
+                fontdict={"size": 8, "fontweight": "bold"},
+                transform=ax.transAxes,
+            )
         self.fig.subplots_adjust(hspace=0.2)
         return timings
 

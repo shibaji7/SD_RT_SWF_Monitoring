@@ -86,7 +86,7 @@ class FlareTS(object):
     from the repo using SunPy
     """
 
-    def __init__(self, dates, verbose=False):
+    def __init__(self, dates, verbose=True, flare_info=None):
         """
         Parameters
         ----------
@@ -95,6 +95,7 @@ class FlareTS(object):
         self.dates = dates
         self.verbose = verbose
         self.dfs = {}
+        self.flare_info = flare_info
         self.__loadGOES__()
         return
 
@@ -164,11 +165,19 @@ class FlareTS(object):
         """
         Plot time series data in-memory
         """
-        setup()
         dates = dates if dates else self.dates
+        setup()
         self.fig = plt.figure(figsize=(6, 2.5), dpi=150)
         ax = self.fig.add_subplot(111)
-        ax.set_xlabel("Time (UT)", fontdict={"size": 12, "fontweight": "bold"})
+        self.plot_TS_from_axes(ax, dates)
+        return
+
+    def plot_TS_from_axes(self, ax, dates=None, xlabel="Time (UT)"):
+        """
+        Plot time series data in-memory
+        """
+        dates = dates if dates else self.dates
+        ax.set_xlabel(xlabel, fontdict={"size": 12, "fontweight": "bold"})
         ax.set_ylabel(
             r"Irradiance ($W/m^2$)", fontdict={"size": 12, "fontweight": "bold"}
         )
@@ -265,6 +274,7 @@ class FlareTS(object):
                 2e-2,
                 "Class: "
                 + self.flare["fl_goescls"][0]
+                + ", AR:" + str(self.flare["ar_noaanum"][0])
                 + "\n Time: "
                 + self.flare["event_peaktime"].to_datetime()[0].strftime("%H:%M")
                 + " UT",
@@ -272,6 +282,43 @@ class FlareTS(object):
                 va="center",
                 fontdict={"size": 10, "color": "k"},
             )
+        if len(self.flare_info) > 0:
+            ax.axvline(
+                self.flare_info["event_starttime"],
+                color="r",
+                ls="--",
+                lw=0.6,
+                alpha=0.7,
+            )
+            ax.axvline(
+                self.flare_info["event_endtime"],
+                color="r",
+                ls="--",
+                lw=0.6,
+                alpha=0.7,
+            )
+            ax.axvline(
+                self.flare_info["event_peaktime"],
+                color="k",
+                ls="--",
+                lw=0.6,
+                alpha=0.7,
+            )
+            ax.text(
+                self.flare_info["event_peaktime"] - dt.timedelta(minutes=5),
+                2e-2,
+                "Class: "
+                + self.flare_info["fl_goescls"] 
+                + ", AR:" + str(self.flare_info["ar_noaanum"] )
+                + "\n Time: "
+                + self.flare_info["event_peaktime"].strftime("%H:%M")
+                + " UT",
+                ha="left",
+                va="center",
+                fontdict={"size": 10, "color": "k"},
+            )
+        if xlabel == "":
+            ax.set_xticklabels([])
         return
 
     def save(self, figname=None, folder="assets/data/figures/goes/"):

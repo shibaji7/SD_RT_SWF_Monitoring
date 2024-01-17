@@ -26,6 +26,7 @@ from descartes import PolygonPatch
 from matplotlib.projections import register_projection
 from rad_fov import CalcFov
 from shapely.geometry import LineString, MultiLineString, Polygon, mapping
+from cartopy.feature.nightshade import Nightshade
 
 
 class SDCarto(GeoAxes):
@@ -66,6 +67,10 @@ class SDCarto(GeoAxes):
         super().__init__(map_projection=map_projection, *args, **kwargs)
         return
 
+    def draw_DN_terminator(self, date):
+        self.add_feature(Nightshade(date, alpha=0.5), dn_term=True)
+        return
+
     def overaly_coast_lakes(self, resolution="50m", color="black", **kwargs):
         """
         Overlay AACGM coastlines and lakes
@@ -88,7 +93,7 @@ class SDCarto(GeoAxes):
         )
         return self.add_feature(feature, **kwargs)
 
-    def add_feature(self, feature, **kwargs):
+    def add_feature(self, feature, dn_term=False, **kwargs):
         # Now we"ll set facecolor as None because aacgm doesn"t close
         # continents near equator and it turns into a problem
         if "edgecolor" not in kwargs:
@@ -97,7 +102,7 @@ class SDCarto(GeoAxes):
             print(
                 "manually setting facecolor keyword to none as aacgm fails for fill! want to know why?? think about equator!"
             )
-        kwargs["facecolor"] = "none"
+        kwargs["facecolor"] = "k" if dn_term else "none"
         if self.coords == "geo":
             super().add_feature(feature, **kwargs)
         else:
@@ -370,13 +375,13 @@ class SDCarto(GeoAxes):
         self,
         rad,
         tx=cartopy.crs.PlateCarree(),
-        maxGate=90,
+        maxGate=75,
         beamLimits=None,
         fovColor=None,
         fovAlpha=0.2,
         zorder=1,
         lineColor="k",
-        lineWidth=0.5,
+        lineWidth=0.2,
         ls="-",
         model="IS",
         fov_dir="front",
