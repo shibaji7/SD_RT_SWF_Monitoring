@@ -293,3 +293,8 @@ body {
 .month-list > div > div:hover {
     background-color: var(--color-hover);
 }
+
+sub{
+    vertical-align: sub;
+    font-size: smaller;
+}
