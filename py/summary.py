@@ -105,10 +105,15 @@ class Summary(object):
         gl.n_steps = 90
         self.proj = proj
         self.geo = cartopy.crs.PlateCarree()
+        import pytz
+        date = self.event_peaktime.to_pydatetime()
+        to_cst = date.replace(tzinfo=pytz.utc).astimezone(pytz.timezone("US/Central"))
+        txt = f"Flare Peak: {date.strftime('%Y-%m-%d [%H:%M')} UT"
+        txt += f" / {to_cst.strftime('%H:%M')} CST]"
         ax.text(
             0.05,
             1.05,
-            f"Flare Peak: {self.event_peaktime.to_pydatetime().strftime('%Y-%m-%d %H:%M')} UT",
+            txt,
             ha="left",
             va="center",
             transform=ax.transAxes,
@@ -132,7 +137,7 @@ class Summary(object):
                 rad, fontSize=4, 
                 font_color=col, markerColor=col
             )
-            ax.overlay_fov(rad, lineColor=col)
+            ax.overlay_fov(rad, lineColor=col, lineWidth=0.3, fovColor=None)
         figname = self.file_names["summary_dn_file"]
         self.fig.savefig(figname, bbox_inches="tight")
         plt.close()

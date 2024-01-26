@@ -671,17 +671,49 @@ class SDAnalysis(object):
             if "onset" in timings:
                 ax.axvline(timings["onset"], color="darkred", ls="-", lw=0.8)
                 text += f"O:{timings['onset'].strftime('%H:%M:%S')}, "
+                ax.text(
+                    timings["onset"],
+                    41,
+                    "O",
+                    ha="center",
+                    va="center",
+                    fontdict={"size": 8, "color": "k"},
+                )
             if "start_blackout" in timings:
                 ax.axvline(timings["start_blackout"], color="k", ls="-", lw=0.8)
                 text += fr"$B_s$:{timings['start_blackout'].strftime('%H:%M:%S')}," + "\n"
+                ax.text(
+                    timings["start_blackout"],
+                    41,
+                    r"$B_s$",
+                    ha="center",
+                    va="center",
+                    fontdict={"size": 8, "color": "k"},
+                )
             if "end_blackout" in timings:
                 ax.axvline(timings["end_blackout"], color="b", ls="-", lw=0.8)
                 text += fr" $B_e$:{timings['end_blackout'].strftime('%H:%M:%S')},"
+                ax.text(
+                    timings["end_blackout"],
+                    41,
+                    r"$B_e$",
+                    ha="center",
+                    va="center",
+                    fontdict={"size": 8, "color": "k"},
+                )
             if "recovery" in timings:
                 ax.axvline(timings["recovery"], color="g", ls="-", lw=0.8)
                 text += f" R:{timings['recovery'].strftime('%H:%M:%S')}"
+                ax.text(
+                    timings["recovery"],
+                    41,
+                    "R",
+                    ha="center",
+                    va="center",
+                    fontdict={"size": 8, "color": "k"},
+                )
             ax.text(
-                0.75,
+                0.95,
                 1.1,
                 text,
                 ha="right",
