@@ -72,7 +72,7 @@ class DRAP(object):
         return sza
 
     def draw_image(self, date, lat_grd, lon_grd, absp, drap_absp):
-        self.fig = plt.figure(dpi=240, figsize=(4,4))
+        self.fig = plt.figure(dpi=240, figsize=(4.5,4.5))
         self.draw_image_axes(
             self.create_ax(211, date, "DRAP2"), 
             drap_absp, lon_grd, lat_grd, True
@@ -135,7 +135,7 @@ class DRAP(object):
                 ha="center",
                 va="top",
                 transform=ax.transAxes,
-                fontsize=6,
+                fontsize=7,
                 rotation=90,
             )
             ax.text(
@@ -145,7 +145,7 @@ class DRAP(object):
                 ha="left",
                 va="center",
                 transform=ax.transAxes,
-                fontsize=6
+                fontsize=7
             )
         ax.text(
             0.95,
@@ -154,7 +154,7 @@ class DRAP(object):
             ha="right",
             va="center",
             transform=ax.transAxes,
-            fontsize=6
+            fontsize=7
         )
         ax.draw_DN_terminator(self.event_peaktime.to_pydatetime())
         return ax
