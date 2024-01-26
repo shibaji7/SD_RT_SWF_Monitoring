@@ -35,4 +35,4 @@ Volume 230, 2022, 105843, ISSN 1364-6826, https://doi.org/10.1016/j.jastp.2022.1
 
 [^6]: Stonehocker, G. H., Advanced Telecommunication Forecasting Technique, in Ionospheric Forecasting, AGARD CONF. Proc. No. 49, Advisory Group for Aerospace Research and Development, NATO; Agy, V. (Ed), p27-1, 1970.
 
-[^7:] NOAA, SWPC, Global D-Region Absorption Prediction, https://www.swpc.noaa.gov/content/global-d-region-absorption-prediction-documentation
+[^7]: NOAA, SWPC, Global D-Region Absorption Prediction, https://www.swpc.noaa.gov/content/global-d-region-absorption-prediction-documentation
