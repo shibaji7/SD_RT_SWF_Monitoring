@@ -72,7 +72,7 @@ class DRAP(object):
         return sza
 
     def draw_image(self, date, lat_grd, lon_grd, absp, drap_absp):
-        self.fig = plt.figure(dpi=240, figsize=(5, 5))
+        self.fig = plt.figure(dpi=240, figsize=(3, 3))
         self.draw_image_axes(
             self.create_ax(211, date, "DRAP2"), 
             drap_absp, lon_grd, lat_grd, True
@@ -95,7 +95,7 @@ class DRAP(object):
         plt.close()
         return
 
-    def draw_image_axes(self, ax, Px, lon_grd, lat_grd, add_cbar=False):
+    def draw_image_axes(self, ax, Px, lon_grd, lat_grd, add_cbar=True):
         XYZ = self.proj.transform_points(self.geo, lon_grd, lat_grd)
         Px = np.ma.masked_invalid(Px)
         im = ax.pcolor(
@@ -103,13 +103,15 @@ class DRAP(object):
                 XYZ[:, :, 1],
                 Px.T,
                 transform=self.proj,
-                cmap="jet",
+                cmap="Reds",
                 vmax=5,
                 vmin=0,
                 alpha=0.7,
             )
         if add_cbar:
             ax._add_colorbar(im, r"$A_{30}$, dB")
+        for rad in ["bks","fhe","fhw"]:
+            ax.overlay_fov(rad, lineColor="k")
         return
 
     def create_ax(self, id, date, model, lay_txt=True):
@@ -133,7 +135,7 @@ class DRAP(object):
                 ha="center",
                 va="top",
                 transform=ax.transAxes,
-                fontsize=12,
+                fontsize=6,
                 rotation=90,
             )
             ax.text(
@@ -143,7 +145,7 @@ class DRAP(object):
                 ha="left",
                 va="center",
                 transform=ax.transAxes,
-                fontsize=12
+                fontsize=6
             )
         ax.text(
             0.95,
@@ -152,7 +154,7 @@ class DRAP(object):
             ha="right",
             va="center",
             transform=ax.transAxes,
-            fontsize=12
+            fontsize=6
         )
         ax.draw_DN_terminator(self.event_peaktime.to_pydatetime())
         return ax
