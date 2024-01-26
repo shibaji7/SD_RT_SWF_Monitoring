@@ -16,7 +16,7 @@
 
 
 #### Acknowledgements:
-
+We acknowledge the use of SuperDARN data. SuperDARN is a network of radars funded by national scientific funding agencies of Australia, Canada, China, France, Italy, Japan, Norway, South Africa, the United Kingdom, and the United States of America. We wish to acknowledge the use of the NOAA/GOES X-ray [dataset](https://www.ngdc.noaa.gov/stp/satellite/goes-r.html) for flare confirmation and dataset. This work is funded by the Aeronautics and Space Administration grant `80NSSC20K1380`.
 
 #### Open Science:
 Refer VT SuperDARN [Website](https://vt.superdarn.org/) for the dataset used in this analysis. Methodolgy is described in our SWF characterization paper (Chakraborty et al. 2018[^2]). Analysis `.py` files are stored in [GitHub](https://github.com/shibaji7/SD_RT_SWF_Monitoring).

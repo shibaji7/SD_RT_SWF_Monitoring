@@ -72,7 +72,7 @@ class DRAP(object):
         return sza
 
     def draw_image(self, date, lat_grd, lon_grd, absp, drap_absp):
-        self.fig = plt.figure(dpi=240, figsize=(3, 3))
+        self.fig = plt.figure(dpi=240, figsize=(4,4))
         self.draw_image_axes(
             self.create_ax(211, date, "DRAP2"), 
             drap_absp, lon_grd, lat_grd, True
