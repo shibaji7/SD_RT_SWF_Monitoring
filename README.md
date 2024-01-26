@@ -26,8 +26,7 @@ Refer VT SuperDARN [Website](https://vt.superdarn.org/) for the dataset used in 
 
 [^2]: Chakraborty, S., Ruohoniemi, J. M., Baker, J. B. H., & Nishitani, N. (2018). Characterization of short-wave fadeout seen in daytime SuperDARN ground scatter observations. Radio Science, 53, 472–484. https://doi.org/10.1002/2017RS006488
 
-[^3]: R.A.D. Fiori, S. Chakraborty, L. Nikitina, Data-based optimization of a simple shortwave fadeout absorption model, Journal of Atmospheric and Solar-Terrestrial Physics,
-Volume 230, 2022, 105843, ISSN 1364-6826, https://doi.org/10.1016/j.jastp.2022.105843.
+[^3]: R.A.D. Fiori, S. Chakraborty, L. Nikitina, Data-based optimization of a simple shortwave fadeout absorption model, Journal of Atmospheric and Solar-Terrestrial Physics Volume 230, 2022, 105843, ISSN 1364-6826, https://doi.org/10.1016/j.jastp.2022.105843.
 
 [^4]: Sauer, H. H., and D. C. Wilkinson, A Global Space Weather Model of Ionospheric HF/VHF Radio-Wave Absorption due to Solar Energetic Protons,Space Weather, submitted, 2008.
 
