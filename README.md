@@ -8,7 +8,7 @@
 
 ### Event-based Summary Reports
 
-> Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray sepctrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage]().
+> Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray sepctrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage](example_summary.html).
 
 ### New HF Absorption-Model:
 
@@ -16,7 +16,7 @@
 
 
 #### Acknowledgements:
-We acknowledge the use of SuperDARN data. SuperDARN is a network of radars funded by national scientific funding agencies of Australia, Canada, China, France, Italy, Japan, Norway, South Africa, the United Kingdom, and the United States of America. We wish to acknowledge the use of the NOAA/GOES X-ray [dataset](https://www.ngdc.noaa.gov/stp/satellite/goes-r.html) for flare confirmation and dataset. This work is funded by the Aeronautics and Space Administration grant `80NSSC20K1380`.
+We acknowledge the use of SuperDARN data. SuperDARN is a network of radars funded by national scientific funding agencies of Australia, Canada, China, France, Italy, Japan, Norway, South Africa, the United Kingdom, and the United States of America. We wish to acknowledge the use of the NOAA/GOES X-ray [dataset](https://www.ngdc.noaa.gov/stp/satellite/goes-r.html) for flare confirmation and dataset. This work is funded by the Aeronautics and Space Administration with grant number `80NSSC20K1380`.
 
 #### Open Science:
 Refer VT SuperDARN [Website](https://vt.superdarn.org/) for the dataset used in this analysis. Methodolgy is described in our SWF characterization paper (Chakraborty et al. 2018[^2]). Analysis `.py` files are stored in [GitHub](https://github.com/shibaji7/SD_RT_SWF_Monitoring).
