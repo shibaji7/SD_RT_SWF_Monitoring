@@ -279,10 +279,9 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            txt = fr"$F_s:${self.flare['event_starttime'].to_datetime()[0].strftime('%H:%M')}, "
-            txt += fr"$F_p:${self.flare['event_peaktime'].to_datetime()[0].strftime('%H:%M')}, "
-            txt += fr"$F_e:${self.flare['event_endtime'].to_datetime()[0].strftime('%H:%M')}, "
-            print(txt)
+            txt = fr"$F_s-${self.flare['event_starttime'].to_datetime()[0].strftime('%H:%M')}, "
+            txt += fr"$F_p-${self.flare['event_peaktime'].to_datetime()[0].strftime('%H:%M')}, "
+            txt += fr"$F_e-${self.flare['event_endtime'].to_datetime()[0].strftime('%H:%M')}, "
             ax.text(
                 0.95, 1.2,
                 txt,
@@ -290,19 +289,6 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            # ax.text(
-            #     self.flare["event_peaktime"].to_datetime()[0] - dt.timedelta(minutes=5),
-            #     2e-2,
-            #     "Class: "
-            #     + self.flare["fl_goescls"][0]
-            #     + ", AR:" + str(self.flare["ar_noaanum"][0])
-            #     + "\n Time: "
-            #     + self.flare["event_peaktime"].to_datetime()[0].strftime("%H:%M")
-            #     + " UT",
-            #     ha="left",
-            #     va="center",
-            #     fontdict={"size": 10, "color": "k"},
-            # )
         if len(self.flare_info) > 0:
             ax.axvline(
                 self.flare_info["event_starttime"],
@@ -335,9 +321,9 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            txt = fr"$F_s:${self.flare_info['event_starttime'].strftime('%H:%M')} UT "+"\n"
-            txt += fr"$F_p:${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"+"\n"
-            txt += fr"$F_e:${self.flare_info['event_endtime'].strftime('%H:%M')} UT"
+            txt = fr"$F_s-${self.flare_info['event_starttime'].strftime('%H:%M')} UT "+"\n"
+            txt += fr"$F_p-${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"+"\n"
+            txt += fr"$F_e-${self.flare_info['event_endtime'].strftime('%H:%M')} UT"
             ax.text(
                 0.95, 1.15,
                 txt,
