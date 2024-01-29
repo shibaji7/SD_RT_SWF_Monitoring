@@ -27,13 +27,17 @@ import os
 
 class DRAP(object):
 
-    def __init__(self, event, date=None):
+    def __init__(self, event, date=None, folder="assets/data/figures/drap/"):
         self.event = event
         for k in self.event.keys():
             setattr(self, k, self.event[k])
         self.date = date if date else self.event_peaktime
         self.flareTS = FlareTS([self.event_starttime, self.event_endtime])
-        self.run_event_analysis()
+        self.folder = folder
+        os.makedirs(folder, exist_ok=True)
+        self.figname = self.folder + f"{self.event_starttime.strftime('%Y%m%d')}.png"
+        if not os.path.exists(self.figname):
+            self.run_event_analysis()
         return
 
     def run_event_analysis(self, date=None):
@@ -85,9 +89,8 @@ class DRAP(object):
         self.close()
         return
 
-    def save(self, figname=None, folder="assets/data/figures/drap/"):
-        os.makedirs(folder, exist_ok=True)
-        figname = figname if figname else folder + f"{self.event_starttime.strftime('%Y%m%d')}.png"
+    def save(self, figname=None):
+        figname = figname if figname else self.figname
         self.fig.savefig(figname, bbox_inches="tight")        
         return
 

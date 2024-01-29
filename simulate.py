@@ -32,9 +32,10 @@ def run_summary_plots_event_analysis(args):
     events, color_codes =  utils.read_events(args.date)
     for date in dates:
         event = utils.select_event_by_color_code_date(events, color_codes, date)
-        event.update(args.__dict__)
-        summary = Summary(event)
-        summary.create_overlap_summary_plot()
+        if event["has_event"]:
+            event.update(args.__dict__)
+            summary = Summary(event)
+            summary.create_overlap_summary_plot()
     return
 
 def run_DRAP_event(args):
@@ -42,8 +43,9 @@ def run_DRAP_event(args):
     events, color_codes =  utils.read_events(args.date)
     for date in dates:
         event = utils.select_event_by_color_code_date(events, color_codes, date)
-        event.update(args.__dict__)
-        drap = DRAP(event)
+        if event["has_event"]:
+            event.update(args.__dict__)
+            drap = DRAP(event)
     return
 
 if __name__ == "__main__":
