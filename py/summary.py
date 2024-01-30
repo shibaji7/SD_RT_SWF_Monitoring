@@ -138,6 +138,14 @@ class Summary(object):
                 font_color=col, markerColor=col
             )
             ax.overlay_fov(rad, lineColor=col, lineWidth=0.3, fovColor=None)
+        ax.text(1.01,
+            0.99,
+             "BKS - Blackstone\n FHE/W - Fort Hays East/West",
+            ha="left",
+            va="top", transform=ax.transAxes,
+                fontdict={"size": 3, "color": "k"},
+                rotation=90
+            )
         figname = self.file_names["summary_dn_file"]
         self.fig.savefig(figname, bbox_inches="tight")
         plt.close()
@@ -151,7 +159,7 @@ class Summary(object):
         self.flareTS.plot_TS_from_axes(self.fig.add_subplot(211), xlabel="")
         self.sd.plot_summary_TS_from_axes(self.fig.add_subplot(212))
         figname = self.file_names["summary_file"]
-        self.fig.subplots_adjust(wspace=0.3, hspace=0.3)
+        self.fig.subplots_adjust(wspace=0.35, hspace=0.35)
         self.fig.savefig(figname, bbox_inches="tight")
         plt.close()
         return

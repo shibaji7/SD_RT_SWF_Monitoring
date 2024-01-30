@@ -182,12 +182,12 @@ class FlareTS(object):
             r"Irradiance ($W/m^2$)", fontdict={"size": 12, "fontweight": "bold"}
         )
         ax.text(
-            1.05,
+            1.01,
             0.99,
             "GOES X-Ray",
-            ha="center",
+            ha="left",
             va="top",
-            fontdict={"size": 12, "fontweight": "bold"},
+            fontdict={"size": 8, "fontweight": "bold"},
             transform=ax.transAxes,
             rotation=90,
         )
@@ -247,7 +247,9 @@ class FlareTS(object):
             "X",
             fontdict={"size": 10, "color": "red"},
         )
+        info = True
         if len(self.flare) > 0:
+            info = False
             ax.axvline(
                 self.flare["event_starttime"].to_datetime()[0],
                 color="r",
@@ -279,9 +281,9 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            txt = fr"$F_s-${self.flare['event_starttime'].to_datetime()[0].strftime('%H:%M')}, "
-            txt += fr"$F_p-${self.flare['event_peaktime'].to_datetime()[0].strftime('%H:%M')}, "
-            txt += fr"$F_e-${self.flare['event_endtime'].to_datetime()[0].strftime('%H:%M')}, "
+            txt = fr"$F_s-${self.flare['event_starttime'].to_datetime()[0].strftime('%H:%M')},"+" [Start]\n"
+            txt += fr"$F_p-${self.flare['event_peaktime'].to_datetime()[0].strftime('%H:%M')},"+" [Peak]\n"
+            txt += fr"$F_e-${self.flare['event_endtime'].to_datetime()[0].strftime('%H:%M')} [End]"
             ax.text(
                 0.95, 1.2,
                 txt,
@@ -289,7 +291,7 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-        if len(self.flare_info) > 0:
+        if len(self.flare_info) > 0 and info:
             ax.axvline(
                 self.flare_info["event_starttime"],
                 color="r",
@@ -321,9 +323,9 @@ class FlareTS(object):
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            txt = fr"$F_s-${self.flare_info['event_starttime'].strftime('%H:%M')} UT "+"\n"
-            txt += fr"$F_p-${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"+"\n"
-            txt += fr"$F_e-${self.flare_info['event_endtime'].strftime('%H:%M')} UT"
+            txt = fr"$F_s-${self.flare_info['event_starttime'].strftime('%H:%M')} UT "+" [Start]\n"
+            txt += fr"$F_p-${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"+" [Peak]\n"
+            txt += fr"$F_e-${self.flare_info['event_endtime'].strftime('%H:%M')} UT [End]"
             ax.text(
                 0.95, 1.15,
                 txt,

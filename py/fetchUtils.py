@@ -670,7 +670,7 @@ class SDAnalysis(object):
             text = ""
             if "onset" in timings:
                 ax.axvline(timings["onset"], color="darkred", ls="-", lw=0.8)
-                text += f"O-{timings['onset'].strftime('%H:%M:%S')}, "
+                text += f"O-{timings['onset'].strftime('%H:%M:%S')} UT [Onset]" + "\n"
                 ax.text(
                     timings["onset"],
                     41,
@@ -681,7 +681,7 @@ class SDAnalysis(object):
                 )
             if "start_blackout" in timings:
                 ax.axvline(timings["start_blackout"], color="k", ls="-", lw=0.8)
-                text += fr"$B_s$-{timings['start_blackout'].strftime('%H:%M:%S')}," + "\n"
+                text += fr"$B_s$-{timings['start_blackout'].strftime('%H:%M:%S')} UT [Blackout Start]" + "\n"
                 ax.text(
                     timings["start_blackout"],
                     41,
@@ -692,7 +692,7 @@ class SDAnalysis(object):
                 )
             if "end_blackout" in timings:
                 ax.axvline(timings["end_blackout"], color="b", ls="-", lw=0.8)
-                text += fr" $B_e$-{timings['end_blackout'].strftime('%H:%M:%S')},"
+                text += fr"$B_e$-{timings['end_blackout'].strftime('%H:%M:%S')} UT [Blackout End]" + "\n"
                 ax.text(
                     timings["end_blackout"],
                     41,
@@ -703,7 +703,7 @@ class SDAnalysis(object):
                 )
             if "recovery" in timings:
                 ax.axvline(timings["recovery"], color="g", ls="-", lw=0.8)
-                text += f" R-{timings['recovery'].strftime('%H:%M:%S')}"
+                text += f"R-{timings['recovery'].strftime('%H:%M:%S')} UT [Recovery]" 
                 ax.text(
                     timings["recovery"],
                     41,
@@ -713,15 +713,15 @@ class SDAnalysis(object):
                     fontdict={"size": 8, "color": "k"},
                 )
             ax.text(
-                0.95,
-                1.1,
+                0.65,
+                1.15,
                 text,
-                ha="right",
+                ha="left",
                 va="center",
                 fontdict={"size": 8, "fontweight": "bold"},
                 transform=ax.transAxes,
             )
-        self.fig.subplots_adjust(hspace=0.2)
+        self.fig.subplots_adjust(hspace=0.25)
         return timings
 
     def save(self, figname=None, folder="assets/data/figures/rads/"):
