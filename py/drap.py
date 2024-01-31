@@ -82,7 +82,7 @@ class DRAP(object):
             drap_absp, lon_grd, lat_grd, True
         )
         self.draw_image_axes(
-            self.create_ax(212, date, "Fiori el at. (2022)", False), 
+            self.create_ax(212, date, "X-RAP", False), 
             absp, lon_grd, lat_grd
         )
         self.save()
