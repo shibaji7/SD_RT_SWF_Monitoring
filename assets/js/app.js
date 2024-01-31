@@ -29,12 +29,6 @@ set_inner_html = (id_str, file, alter) => {
     }
 }
 
-check_file_exists = (file) => {
-    var request = new XMLHttpRequest(); 
-    request.open("GET", file, false);
-    console.log(request.status);
-}
-
 generateCalendar = (month, year) => {
     console.log(year, month)
     var calendar_days = calendar.querySelector('.calendar-days')
@@ -101,7 +95,6 @@ generateCalendar = (month, year) => {
             document.getElementById('calendar_pane').style.display = "none";
             document.getElementById('button_image').style.display = "block";
             
-            check_file_exists(goes_img)
             set_inner_html('#goes_image', goes_img, "GOES Info");
             set_inner_html('#summary_image', summary_img, "Summary Info");
             set_inner_html('#summary_dn_image', summary_dn_img, "DN Info");
