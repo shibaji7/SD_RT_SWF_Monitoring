@@ -54,7 +54,7 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="DRAP", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
+        "-m", "--method", default="FL", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
     )
     parser.add_argument(
         "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"

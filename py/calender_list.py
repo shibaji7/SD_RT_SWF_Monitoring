@@ -94,6 +94,6 @@ def create_flare_list_for_calender(year_start):
         txt += brc.replace("fx_color", e.color).replace("fx_date", 
             e.date.strftime("%m/%d/%Y"))
     txt += "\n]"
-    with open("assets/js/constant.js", "w") as f:
+    with open("assets/js/flarelist.js", "w") as f:
         f.write(txt)
     return events, color_codes

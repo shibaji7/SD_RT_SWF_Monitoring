@@ -1720,6 +1720,10 @@ var EVENTS = [
     'color': 'green',
     },
     {
+    'date': new Date('12/31/2022'),
+    'color': 'green',
+    },
+    {
     'date': new Date('01/01/2023'),
     'color': 'green',
     },
@@ -3190,5 +3194,89 @@ var EVENTS = [
     {
     'date': new Date('01/10/2024'),
     'color': 'yellow',
+    },
+    {
+    'date': new Date('01/11/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/12/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/13/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/14/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/15/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/16/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/17/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/18/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/19/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/20/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/21/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/22/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/23/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/24/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/25/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/26/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/27/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/28/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/29/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/30/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('01/31/2024'),
+    'color': 'green',
     },
 ]
