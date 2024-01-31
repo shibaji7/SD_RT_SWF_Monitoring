@@ -10,7 +10,7 @@
 
 > Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray sepctrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage](example_summary.html).
 
-### New HF Absorption-Model:
+### New HF Absorption-Model / X-RAP *X-Ray Irradiance driven d-Region Absorption Prediction*
 
 > Latest study by Fiori et al. (2022)[^3] optimized a simple absorption model using data from solar X-ray flares and riometer stations across Canada. In a specific event study, our optimized model showed a 1% overestimation of absorption during an X2.1 solar X-ray flare, correcting an underestimation by the NOAA D-region Absorption Prediction (D-RAP) model. In a broader statistical study involving 87 events, event-by-event optimization demonstrated excellent agreement between measured and modeled data, with a Pearson correlation coefficient (R) of 0.88 and a slope (m) of 0.91. The study also developed a generalized model using data from all events, showing slightly reduced correlation (R = 0.75) and slope (m = 0.80). The model's accuracy, evaluated by prediction efficiency, peaked at 0.78 for event-by-event analysis and 0.48 for the collective dataset. This new HF absorption model is also presented along with DRAP[^4] [^5] [^6] [^7] model output. Please find example event and parameter description in this [webpage](example_newdrap.html).
 
