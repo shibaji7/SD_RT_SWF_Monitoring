@@ -31,7 +31,7 @@ set_inner_html = (id_str, file, alter) => {
 
 check_file_exists = (file) => {
     var request = new XMLHttpRequest(); 
-    request.get(file);
+    request.open("GET", file, false);
     console.log(request.status);
 }
 
