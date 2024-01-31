@@ -54,7 +54,7 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="FL", type=str, help="FL: Flare list; EA: Event analysis; DRAP: Model"
+        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis"
     )
     parser.add_argument(
         "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
@@ -70,7 +70,6 @@ if __name__ == "__main__":
         print("     ", k, "->", str(vars(args)[k]))
     if args.method == "EA":
         run_summary_plots_event_analysis(args)
-    elif args.method == "DRAP":
         run_DRAP_event(args)
     elif args.method == "FL":
         create_flare_list_for_calender(args.year)
