@@ -99,20 +99,6 @@ generateCalendar = (month, year) => {
             set_inner_html('#summary_image', summary_img, "Summary Info");
             set_inner_html('#summary_dn_image', summary_dn_img, "DN Info");
             set_inner_html('#drap_image', drap_img, "DRAP Info");
-            // goes_div = document.querySelector('#goes_image');
-            // summary_div = document.querySelector('#summary_image');
-            // summary_dn_div = document.querySelector('#summary_dn_image');
-            // ndrap_div = document.querySelector('#drap_image');
-            // if (summary_div){
-            //     summary_div.innerHTML = `<img src="${summary_img}" alt="SD SWF Info">`;
-            // }
-            // if (summary_dn_div){
-            //     summary_dn_div.innerHTML = `<img src="${summary_dn_img}" alt="SD SWF Info">`;
-            // }
-            // if (ndrap_div){
-            //     ndrap_div.innerHTML = `<img src="${drap_img}" alt="SD SWF Info">`;
-            // }
-            
         })
         calendar_days.appendChild(day)
     }
