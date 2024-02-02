@@ -238,7 +238,7 @@ class FlareTS(object):
             alpha=0.7,
             label=r"$\lambda_1\sim (0.1-0.8)$ nm",
         )
-        ax.legend(loc=1)
+        ax.legend(loc=1, fontsize=8)
         ax.set_xlim(dates)
         ax.set_ylim(1e-8, 1e-2)
         ax.axhline(1e-4, color="r", ls="--", lw=0.6, alpha=0.7)

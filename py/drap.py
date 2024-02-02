@@ -82,8 +82,8 @@ class DRAP(object):
             drap_absp, lon_grd, lat_grd, True
         )
         self.draw_image_axes(
-            self.create_ax(212, date, "X-RAP", False), 
-            absp, lon_grd, lat_grd
+            self.create_ax(212, date, "X-RAP"), 
+            absp, lon_grd, lat_grd, True
         )
         self.save()
         self.close()
@@ -142,7 +142,7 @@ class DRAP(object):
                 rotation=90,
             )
             ax.text(
-                0.05,
+                0.01,
                 1.05,
                 date.strftime("%Y-%m-%d %H:%M") + " UT",
                 ha="left",
@@ -151,9 +151,9 @@ class DRAP(object):
                 fontsize=7
             )
         ax.text(
-            0.95,
+            0.99,
             1.05,
-            f"Model: {model}",
+            f"HF Absorption Model (@30 MHz): {model}",
             ha="right",
             va="center",
             transform=ax.transAxes,
