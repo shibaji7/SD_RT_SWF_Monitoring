@@ -6,7 +6,9 @@
 > * *Event-based Summary Reports*: Pre-loaded events by [calendar](flarelist.html), shwoing solar irradiance (at X-ray band) condition and associated ionospheric/HF response recoreded by SuperDARN.
 > * *New HF absorption model*: Pre-loaded modeled events by [calendar](newdrap.html), shwoing solar irradiance (at X-ray band) condition and modeled HF condition during the peak of the flare.
 
-> Note that the calenders list only the highest flare on an UT day. If you need analysis of a specific flare event please contact [J. Michael Ruohoniemi](mailto:mikeruo@vt.edu) or [Shibaji Chakraborty](mailto:shibaji7@vt.edu)
+> Note that the calenders list only the highest flare on an UT day. If you need analysis of a specific flare event please contact [Shibaji Chakraborty](mailto:shibaji7@vt.edu), [J. Michael Ruohoniemi](mailto:mikeruo@vt.edu).
+
+
 ### Event-based Summary Reports
 
 > Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray sepctrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage](example_summary.html).
