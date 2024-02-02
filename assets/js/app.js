@@ -127,6 +127,7 @@ month_picker.onclick = () => {
 }
 
 var currDate = new Date()
+currDate.setDate(currDate.getDate() - 1)
 
 var curr_month = {value: currDate.getMonth()}
 var curr_year = {value: currDate.getFullYear()}
