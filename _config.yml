@@ -1,7 +1,7 @@
-title: SWF Monitoring
+title: NA SWF Monitoring
 #logo: /assests/img/Virginia Tech SuperDARN Solar Flare.png
 lang: en-US
-description: Solar Flare-driven SWF Monitoring
+description: NA SWF Monitoing & X-RAP Modeling
 plugins:
   - jekyll-remote-theme
 remote_theme: benbalter/retlab
