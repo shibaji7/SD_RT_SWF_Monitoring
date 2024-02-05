@@ -1,4 +1,4 @@
-# NA SWF Monitoing & X-RAP Modeling
+# North America SWF Monitoing & X-RAP Modeling
 
 > The X-ray, Extreme Ultra Violate (EUV) radiation released during a solar X-ray flare induces electron density enhancement in the dayside D-region ionosphere[^1]. This heightened electron density has the capacity to elevate absorption in the high frequency (HF:3-30 MHz) range, specifically between 3 and 30 MHz. The consequence is a reduction in signal strength, affecting shortwave radio transmissions, commonly known as shortwave fadeout, SWF.
 
