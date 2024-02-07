@@ -2,7 +2,7 @@
 
 > The X-ray, Extreme Ultra Violate (EUV) radiation released during a solar X-ray flare induces electron density enhancement in the dayside D-region ionosphere[^1]. This heightened electron density has the capacity to elevate absorption in the high frequency (HF:3-30 MHz) range, specifically between 3 and 30 MHz. The consequence is a reduction in signal strength, affecting shortwave radio transmissions, commonly known as shortwave fadeout, SWF.
 
-![Flare Impact on Hf Communication](https://shibaji7.github.io/assets/img/SWF-480.webp)
+![Flare Impact on Hf Communication](assets/SWF.png)
 
 > This monitoring tool provides a summary of flare impacts on SuperDARN HF radar observations in the **North American** (NA) sector with an emphasis on ShortWave Fadeout (SWF). Specifically, tool provides the following data/analysis products:
 > * *Event-based Summary Reports*: Pre-loaded events by [calendar](flarelist.html), showing solar irradiance (at X-ray band) condition and associated ionospheric/HF response recorded by SuperDARN.
