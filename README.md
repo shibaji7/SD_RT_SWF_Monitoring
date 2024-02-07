@@ -1,17 +1,17 @@
-# North America SWF Monitoing & X-RAP Modeling
+# North America SWF Monitoring & X-RAP Modeling
 
 > The X-ray, Extreme Ultra Violate (EUV) radiation released during a solar X-ray flare induces electron density enhancement in the dayside D-region ionosphere[^1]. This heightened electron density has the capacity to elevate absorption in the high frequency (HF:3-30 MHz) range, specifically between 3 and 30 MHz. The consequence is a reduction in signal strength, affecting shortwave radio transmissions, commonly known as shortwave fadeout, SWF.
 
 > This monitoring tool provides a summary of flare impacts on SuperDARN HF radar observations in the **North American** (NA) sector with an emphasis on ShortWave Fadeout (SWF). Specifically, tool provides the following data/analysis products:
-> * *Event-based Summary Reports*: Pre-loaded events by [calendar](flarelist.html), shwoing solar irradiance (at X-ray band) condition and associated ionospheric/HF response recoreded by SuperDARN.
-> * *New HF absorption model*: Pre-loaded modeled events by [calendar](newdrap.html), shwoing solar irradiance (at X-ray band) condition and modeled HF condition during the peak of the flare.
+> * *Event-based Summary Reports*: Pre-loaded events by [calendar](flarelist.html), showing solar irradiance (at X-ray band) condition and associated ionospheric/HF response recorded by SuperDARN.
+> * *New HF absorption model*: Pre-loaded modeled events by [calendar](newdrap.html), showing solar irradiance (at X-ray band) condition and modeled HF condition during the peak of the flare.
 
-> Note that the calenders list only the highest flare on an UT day. If you need analysis of a specific flare event please contact [Shibaji Chakraborty](mailto:shibaji7@vt.edu), [J. Michael Ruohoniemi](mailto:mikeruo@vt.edu).
+> Note that the calendars list only the highest flare on an UT day. If you need analysis of a specific flare event please contact [Shibaji Chakraborty](mailto:shibaji7@vt.edu), [J. Michael Ruohoniemi](mailto:mikeruo@vt.edu).
 
 
 ### Event-based Summary Reports
 
-> Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray sepctrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and alogorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage](example_summary.html).
+> Summary report of GOES X-Ray irradiance. Flare class and peak time is identified in the Soft X-ray spectrum (SXR, red). Summary report of a sub-network of SuperDARN radar chain distributed across the middle and high-latitudes of the North American Sector. SWF phase timings [onset, blackout, recovery start, and end] and phase durations [onset, backout, and recovery] are estimated from the backscatter count `<E>` parameter. Thresholds and algorithm is defined in Chakraborty et al. (2018)[^2]. Please find example event and parameter description in this [webpage](example_summary.html).
 
 ### X-Ray Irradiance driven d-Region Absorption Prediction (*X-RAP*)
 
@@ -22,7 +22,7 @@
 The Blackstone and Fort Hays SuperDARN radars are maintained and operated by Virginia Tech under support by NSF grant AGS-1935110. We acknowledge the use of SuperDARN data. SuperDARN is a network of radars funded by national scientific funding agencies of Australia, Canada, China, France, Italy, Japan, Norway, South Africa, the United Kingdom, and the United States of America. We wish to acknowledge the use of the NOAA/GOES X-ray [dataset](https://www.ngdc.noaa.gov/stp/satellite/goes-r.html) for flare confirmation and dataset. This work is funded by the NASA with grant number SWR2O2R `80NSSC20K1380`.
 
 #### Open Science:
-Refer VT SuperDARN [Website](https://vt.superdarn.org/) for the dataset used in this analysis. Methodolgy is described in our SWF characterization paper (Chakraborty et al. 2018[^2]). Analysis `.py` files are stored in [GitHub](https://github.com/shibaji7/SD_RT_SWF_Monitoring).
+Refer VT SuperDARN [Website](https://vt.superdarn.org/) for the dataset used in this analysis. Methodology is described in our SWF characterization paper (Chakraborty et al. 2018[^2]). Analysis `.py` files are stored in [GitHub](https://github.com/shibaji7/SD_RT_SWF_Monitoring).
 
 #### References:
 [^1]: Davies, K., Ionospheric Radio. Peregrinus Ltd., London, UK. 1990.
