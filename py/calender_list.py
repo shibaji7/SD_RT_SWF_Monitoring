@@ -53,7 +53,7 @@ def create_flare_list_file(file, start_date, end_date):
 def create_flare_list_for_calender(year_start):
     events, color_codes = pd.DataFrame(), pd.DataFrame()
     start_date = dt.datetime(year_start, 1, 1)
-    end_date = dt.datetime.now()
+    end_date = dt.datetime.now() - dt.timedelta(days=1)
     years = [year_start + i for i in range(int((end_date-start_date).days/365)+1)]
     flare_data_files = ["assets/data/FL.{year}.csv".format(year=y) for y in years]
     for file, year in zip(flare_data_files, years):

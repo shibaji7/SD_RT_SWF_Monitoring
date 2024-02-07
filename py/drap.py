@@ -78,12 +78,12 @@ class DRAP(object):
     def draw_image(self, date, lat_grd, lon_grd, absp, drap_absp):
         self.fig = plt.figure(dpi=240, figsize=(4.5,4.5))
         self.draw_image_axes(
-            self.create_ax(211, date, "DRAP2"), 
-            drap_absp, lon_grd, lat_grd, True
+            self.create_ax(211, date, "X-RAP"), 
+            absp, lon_grd, lat_grd, True
         )
         self.draw_image_axes(
-            self.create_ax(212, date, "X-RAP"), 
-            absp, lon_grd, lat_grd, True
+            self.create_ax(212, date, "DRAP2"), 
+            drap_absp, lon_grd, lat_grd, True
         )
         self.save()
         self.close()

@@ -15,6 +15,7 @@
     --green: rgb(8, 245, 59);
     --red: rgb(245, 8, 8);
     --yellow: rgb(236, 229, 8);
+    --orange: rgb(255,165,0);
     --shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --font-family: cursive;
 }
@@ -188,7 +189,7 @@ body {
 /* Add M-class flares */
 .calendar-days div.m-class-date,
 .calendar-days div.m-class-date:hover {
-    background-color: var(--yellow);
+    background-color: var(--orange);
     color: var(--white);
     border-radius: 50%;
 }

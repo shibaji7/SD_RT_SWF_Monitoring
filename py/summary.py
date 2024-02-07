@@ -84,7 +84,8 @@ class Summary(object):
         from cartopy.feature.nightshade import Nightshade
         os.makedirs(folder, exist_ok=True)
         self.fig = plt.figure(dpi=300, figsize=(2,3))
-        proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
+        #proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
+        proj = cartopy.crs.PlateCarree(central_longitude=-120)
         ax = self.fig.add_subplot(
             111,
             projection="SDCarto",

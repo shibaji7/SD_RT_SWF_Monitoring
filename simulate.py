@@ -57,7 +57,7 @@ if __name__ == "__main__":
         "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis"
     )
     parser.add_argument(
-        "-d", "--date", default="2024-02-06", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
         "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
