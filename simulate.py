@@ -28,9 +28,13 @@ def run_summary_plots_event_analysis(args):
     Create simulate .md files
     """
     args.rads = args.rads.split("-")
-    dates = utils.create_date_list(args.date, args.whole_month)
-    events, color_codes =  utils.read_events(args.date)
+    if args.whole_month:
+        dates = utils.create_date_list(args.start_date, args.whole_month)
+    else:
+        days = int((args.end_date - args.start_date).days)
+        dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
     for date in dates:
+        events, color_codes =  utils.read_events(date)
         event = utils.select_event_by_color_code_date(events, color_codes, date)
         if event["has_event"]:
             event.update(args.__dict__)
@@ -40,9 +44,13 @@ def run_summary_plots_event_analysis(args):
     return
 
 def run_DRAP_event(args):
-    dates = utils.create_date_list(args.date, args.whole_month)
-    events, color_codes =  utils.read_events(args.date)
+    if args.whole_month:
+        dates = utils.create_date_list(args.start_date, args.whole_month)
+    else:
+        days = int((args.end_date - args.start_date).days)
+        dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
     for date in dates:
+        events, color_codes =  utils.read_events(date)
         event = utils.select_event_by_color_code_date(events, color_codes, date)
         if event["has_event"]:
             event.update(args.__dict__)
@@ -58,7 +66,10 @@ if __name__ == "__main__":
         "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis"
     )
     parser.add_argument(
-        "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-sd", "--start_date", default="2023-12-10", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+    )
+    parser.add_argument(
+        "-ed", "--end_date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
         "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
