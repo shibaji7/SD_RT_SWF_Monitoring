@@ -91,6 +91,7 @@ generateCalendar = (month, year) => {
             summary_img = "../assets/data/figures/sd_summary/" + file;
             summary_dn_img = "../assets/data/figures/sd_dn_summary/" + file;
             drap_img = "../assets/data/figures/drap/" + file;
+            xrap_img = "../assets/data/figures/xrap/" + file;
             
             document.getElementById('calendar_pane').style.display = "none";
             document.getElementById('button_image').style.display = "block";
@@ -99,6 +100,7 @@ generateCalendar = (month, year) => {
             set_inner_html('#summary_image', summary_img, "Summary Info");
             set_inner_html('#summary_dn_image', summary_dn_img, "DN Info");
             set_inner_html('#drap_image', drap_img, "DRAP Info");
+            set_inner_html('#xrap_image', xrap_img, "X-RAP Info");
         })
         calendar_days.appendChild(day)
     }
