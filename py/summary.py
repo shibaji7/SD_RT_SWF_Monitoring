@@ -156,9 +156,9 @@ class Summary(object):
         # Merge GOES and SD
         folder = f"assets/data/figures/sd_summary/"
         os.makedirs(folder, exist_ok=True)
-        self.fig = plt.figure(figsize=(6, 5), dpi=180)
-        self.flareTS.plot_TS_from_axes(self.fig.add_subplot(211), xlabel="")
-        self.sd.plot_summary_TS_from_axes(self.fig.add_subplot(212))
+        self.fig = plt.figure(figsize=(6, 8), dpi=180)
+        self.flareTS.plot_TS_from_axes(self.fig.add_subplot(311), xlabel="")
+        self.sd.plot_summary_TS_from_axes(self.fig.add_subplot(312))
         figname = self.file_names["summary_file"]
         self.fig.subplots_adjust(wspace=0.35, hspace=0.35)
         self.fig.savefig(figname, bbox_inches="tight")

@@ -27,14 +27,15 @@ import os
 
 class DRAP(object):
 
-    def __init__(self, event, date=None, folder="assets/data/figures/drap/"):
+    def __init__(self, event, date=None, folder="assets/data/figures/drap/", only_xrap=False):
         self.event = event
         for k in self.event.keys():
             setattr(self, k, self.event[k])
         self.date = date if date else self.event_peaktime
         self.flareTS = FlareTS([self.event_starttime, self.event_endtime])
-        self.folder = folder
-        os.makedirs(folder, exist_ok=True)
+        self.only_xrap = only_xrap
+        self.folder = folder.replace("drap","xrap") if only_xrap else folder
+        os.makedirs(self.folder, exist_ok=True)
         self.figname = self.folder + f"{self.event_starttime.strftime('%Y%m%d')}.png"
         if not os.path.exists(self.figname):
             self.run_event_analysis()
@@ -76,15 +77,21 @@ class DRAP(object):
         return sza
 
     def draw_image(self, date, lat_grd, lon_grd, absp, drap_absp):
-        self.fig = plt.figure(dpi=240, figsize=(4.5,4.5))
-        self.draw_image_axes(
-            self.create_ax(211, date, "X-RAP"), 
-            absp, lon_grd, lat_grd, True
-        )
-        self.draw_image_axes(
-            self.create_ax(212, date, "DRAP2"), 
-            drap_absp, lon_grd, lat_grd, True
-        )
+        self.fig = plt.figure(dpi=240, figsize=(4.5,2)) if self.only_xrap else plt.figure(dpi=240, figsize=(4.5,4.5))
+        if self.only_xrap:
+            self.draw_image_axes(
+                self.create_ax(111, date, "X-RAP"), 
+                absp, lon_grd, lat_grd, True
+            )
+        else:
+            self.draw_image_axes(
+                self.create_ax(211, date, "X-RAP"), 
+                absp, lon_grd, lat_grd, True
+            )
+            self.draw_image_axes(
+                self.create_ax(212, date, "DRAP2"), 
+                drap_absp, lon_grd, lat_grd, True
+            )
         self.save()
         self.close()
         return

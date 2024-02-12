@@ -36,6 +36,7 @@ def run_summary_plots_event_analysis(args):
             event.update(args.__dict__)
             summary = Summary(event)
             summary.create_overlap_summary_plot()
+            drap = DRAP(event, only_xrap=True)
     return
 
 def run_DRAP_event(args):
@@ -57,7 +58,7 @@ if __name__ == "__main__":
         "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis"
     )
     parser.add_argument(
-        "-d", "--date", default="2024-02-10", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-d", "--date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
         "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
