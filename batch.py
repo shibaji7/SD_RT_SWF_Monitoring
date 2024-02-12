@@ -19,8 +19,8 @@ from datetime import date, timedelta
 if __name__ == "__main__":
     date = date.today() - timedelta(1)
     commands = [
-        f"python simulate.py -m FL -d {date.strftime('%Y-%m-%d')} >/dev/null 2>&1",
-        f"python simulate.py -m EA -d {date.strftime('%Y-%m-%d')} >/dev/null 2>&1",
+        f"python simulate.py -m FL -d {date.strftime('%Y-%m-%d')}",
+        f"python simulate.py -m EA -d {date.strftime('%Y-%m-%d')}",
         f"git add --all",
         f"git commit -m \"Updated on {date.strftime('%Y-%m-%d')}\"",
         f"git push"
