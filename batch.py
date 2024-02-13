@@ -17,12 +17,15 @@ import os
 from datetime import date, timedelta
 
 if __name__ == "__main__":
-    date = date.today() - timedelta(1)
+    sdate, edate = (
+        date.today() - timedelta(2),
+        date.today() - timedelta(1)
+    )
     commands = [
-        f"python simulate.py -m FL -d {date.strftime('%Y-%m-%d')}",
-        f"python simulate.py -m EA -d {date.strftime('%Y-%m-%d')}",
+        f"python simulate.py -m FL -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
+        f"python simulate.py -m EA -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
         f"git add --all",
-        f"git commit -m \"Updated on {date.strftime('%Y-%m-%d')}\"",
+        f"git commit -m \"Updated on {edate.strftime('%Y-%m-%d')}\"",
         f"git push"
     ]
     for command in commands:
