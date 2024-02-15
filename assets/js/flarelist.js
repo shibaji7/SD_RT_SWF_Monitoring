@@ -3321,7 +3321,7 @@ var EVENTS = [
     },
     {
     'date': new Date('02/11/2024'),
-    'color': 'green',
+    'color': 'yellow',
     },
     {
     'date': new Date('02/12/2024'),
@@ -3330,5 +3330,9 @@ var EVENTS = [
     {
     'date': new Date('02/13/2024'),
     'color': 'green',
+    },
+    {
+    'date': new Date('02/14/2024'),
+    'color': 'yellow',
     },
 ]
