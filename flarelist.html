@@ -10,8 +10,25 @@ permalink: /flarelist/
 
 <div class="container">
     <div class="row" id="table-list">
-        <div class="col-6">
-            <input type="text" id="table_input" onkeyup="searchTable()" placeholder="Search for names..">
+        <div class="row">
+            <div class="col-6">
+                <input type="text" id="table_input" onkeyup="searchTable()" placeholder="Search for events..">
+            </div>
+        </div>
+        <div class="row">
+            <table class="table_brdr" id="flare_table">
+                <caption>
+                    Compiled Solar Flare Events
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Class</th>
+                        <th scope="col">Event Start</th>
+                        <th scope="col">Event Peak</th>
+                        <th scope="col">Event End</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
     <div class="row"></div>
