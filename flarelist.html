@@ -6,30 +6,6 @@ permalink: /flarelist/
 
 <script defer src="{{ "/assets/js/eventlist.js?v=" | append: site.github.build_revision | relative_url }}"></script>
 <script defer src="{{ "/assets/js/table.js?v=" | append: site.github.build_revision | relative_url }}"></script>
-<script>
-    createTable();
-
-    function createTable(){
-        var tableBody = document.getElementById("flare_table_body");
-        events.forEach(function(item) {
-            // Create a table row
-            var row = document.createElement("tr");
-        
-            // Create table cells for each data property
-            for (var key in item) {
-            if (item.hasOwnProperty(key)) {
-                var cell = document.createElement("td");
-                var text = document.createTextNode(item[key]);
-                cell.appendChild(text);
-                row.appendChild(cell);
-            }
-            }
-        
-            // Append the row to the table body
-            tableBody.appendChild(row);
-        });
-    }
-</script>
 
 
 <div class="container">
@@ -88,3 +64,27 @@ permalink: /flarelist/
         </div>
     </div>
 </div>
+
+<script>
+    function createTable(){
+        var tableBody = document.getElementById("flare_table_body");
+        events.forEach(function(item) {
+            // Create a table row
+            var row = document.createElement("tr");
+        
+            // Create table cells for each data property
+            for (var key in item) {
+            if (item.hasOwnProperty(key)) {
+                var cell = document.createElement("td");
+                var text = document.createTextNode(item[key]);
+                cell.appendChild(text);
+                row.appendChild(cell);
+            }
+            }
+        
+            // Append the row to the table body
+            tableBody.appendChild(row);
+        });
+    }
+    createTable();
+</script>
