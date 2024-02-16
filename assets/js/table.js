@@ -40,3 +40,5 @@ function createTable(){
         tableBody.appendChild(row);
     });
 }
+
+window.onload = createTable;
