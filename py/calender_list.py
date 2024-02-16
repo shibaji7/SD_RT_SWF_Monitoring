@@ -17,6 +17,7 @@ import datetime as dt
 import os
 import pandas as pd
 from goes import FlareInfo
+import json
 
 def create_flare_list_file(file, start_date, end_date):
     date = start_date
@@ -97,3 +98,32 @@ def create_flare_list_for_calender(year_start):
     with open("assets/js/flarelist.js", "w") as f:
         f.write(txt)
     return events, color_codes
+
+def create_event_list(year_start):
+    events, color_codes = pd.DataFrame(), pd.DataFrame()
+    start_date = dt.datetime(year_start, 1, 1)
+    end_date = dt.datetime.now() - dt.timedelta(days=1)
+    years = [year_start + i for i in range(int((end_date-start_date).days/365)+1)]
+    flare_data_files = ["assets/data/FL.{year}.csv".format(year=y) for y in years]
+    o = pd.concat(
+        [
+            pd.read_csv(
+                f, 
+                parse_dates=[
+                    "event_starttime","event_peaktime",
+                    "event_endtime", "date"
+                ]
+            ) 
+            for f in flare_data_files
+        ]
+    )
+    o = o[["fl_goescls", "event_starttime", "event_peaktime", "event_endtime"]]
+    o.event_starttime = o.event_starttime.astype(str).apply(lambda x: f"Date('{x}')")
+    o.event_peaktime = o.event_peaktime.astype(str).apply(lambda x: f"Date('{x}')")
+    o.event_endtime = o.event_endtime.astype(str).apply(lambda x: f"Date('{x}')")
+    o = o.to_dict("records")
+    y = "var events = " + json.dumps(o, indent=4)
+    y = y.replace("\"Date(", "Date(").replace("')\"", "')")
+    with open("assets/js/eventlist.js", "w") as f:
+        f.write(y)
+    return

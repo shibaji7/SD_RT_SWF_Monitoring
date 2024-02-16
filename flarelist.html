@@ -4,7 +4,7 @@ layout: page
 permalink: /flarelist/
 ---
 
-<script defer src="{{ "/assets/js/flarelist.js?v=" | append: site.github.build_revision | relative_url }}"></script>
+<script defer src="{{ "/assets/js/eventlist.js?v=" | append: site.github.build_revision | relative_url }}"></script>
 <script defer src="{{ "/assets/js/table.js?v=" | append: site.github.build_revision | relative_url }}"></script>
 
 
@@ -28,7 +28,7 @@ permalink: /flarelist/
                         <th scope="col">Event End</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="flare_table_body">
                     
                 </tbody>
             </table>

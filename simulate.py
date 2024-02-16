@@ -19,7 +19,7 @@ import pandas as pd
 import sys
 sys.path.extend(["py/", "py/geo/"])
 import utils
-from calender_list import create_flare_list_for_calender
+from calender_list import create_flare_list_for_calender, create_event_list
 from drap import DRAP
 from summary import Summary
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis"
+        "-m", "--method", default="EL", type=str, help="FL: Flare list; EA: Event analysis, EL: Event list"
     )
     parser.add_argument(
         "-sd", "--start_date", default="2023-12-10", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
@@ -85,5 +85,7 @@ if __name__ == "__main__":
         run_DRAP_event(args)
     elif args.method == "FL":
         create_flare_list_for_calender(args.year)
+    elif args.method == "EL":
+        create_event_list(args.year)
     else:
         print(f"Invalid method / not implemented {args.method}")
