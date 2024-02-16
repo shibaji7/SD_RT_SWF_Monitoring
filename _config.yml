@@ -8,5 +8,6 @@ remote_theme: benbalter/retlab
 
 # Pages to include in header navigation
 nav_pages:
-  - flarelist.html
+  - flarecal.html
   - newdrap.html
+  - flarelist.html
