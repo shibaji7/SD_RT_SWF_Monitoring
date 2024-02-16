@@ -40,5 +40,3 @@ function createTable(){
         tableBody.appendChild(row);
       });
 }
-
-createTable()
