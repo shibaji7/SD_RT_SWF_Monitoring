@@ -66,25 +66,5 @@ permalink: /flarelist/
 </div>
 
 <script>
-    function createTable(){
-        var tableBody = document.getElementById("flare_table_body");
-        events.forEach(function(item) {
-            // Create a table row
-            var row = document.createElement("tr");
-        
-            // Create table cells for each data property
-            for (var key in item) {
-            if (item.hasOwnProperty(key)) {
-                var cell = document.createElement("td");
-                var text = document.createTextNode(item[key]);
-                cell.appendChild(text);
-                row.appendChild(cell);
-            }
-            }
-        
-            // Append the row to the table body
-            tableBody.appendChild(row);
-        });
-    }
-    createTable();
+    window.onload = createTable;
 </script>
