@@ -63,13 +63,13 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="EL", type=str, help="FL: Flare list; EA: Event analysis, EL: Event list"
+        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis, EL: Event list"
     )
     parser.add_argument(
-        "-sd", "--start_date", default="2023-12-10", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-sd", "--start_date", default="2024-02-10", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
-        "-ed", "--end_date", default="2023-12-31", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-ed", "--end_date", default="2024-02-17", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
         "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
