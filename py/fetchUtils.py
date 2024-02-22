@@ -667,7 +667,7 @@ class SDAnalysis(object):
                 ax.text(
                     0.7,
                     0.7,
-                    "Radars were in the nightside\n during the event",
+                    "No SWF event observed \n due to NA on nightside.",
                     ha="center",
                     va="center",
                     fontdict={"size": 12, "color": "darkred"},
