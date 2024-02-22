@@ -94,7 +94,10 @@ generateCalendar = (month, year) => {
             xrap_img = "../assets/data/figures/xrap/" + file;
             
             document.getElementById('calendar_pane').style.display = "none";
-            document.getElementById('calendar_pane_swf').style.display = "none";
+            var swf = document.getElementById('calendar_pane_swf');
+            if (swf != null){
+                swf.style.display = "none";
+            }
             document.getElementById('button_image').style.display = "block";
             
             set_inner_html('#goes_image', goes_img, "GOES Info");
