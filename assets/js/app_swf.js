@@ -1,9 +1,9 @@
 var calendar = document.querySelector('#calendar_pane_swf')
 
-fetchEvent = (date) => {
+fetchSWFEvent = (date) => {
     var color = 'white'
-    for(i = 0; i<EVENTS.length; i++){
-        e = EVENTS[i]
+    for(i = 0; i<SWF_EVENTS.length; i++){
+        e = SWF_EVENTS[i]
         if(e['date'].getTime()===date.getTime()){
             color = e['color']
             break
@@ -60,18 +60,12 @@ generateCalendar = (month, year) => {
             day.innerHTML = i - first_day.getDay() + 1
             day.innerHTML += tag
             var date = new Date(first_day.getFullYear(), first_day.getMonth(), i - first_day.getDay()+1)
-            color = fetchEvent(date)
+            color = fetchSWFEvent(date)
             // if (i - first_day.getDay() === currDate.getDate() && year === currDate.getFullYear() && month === currDate.getMonth()) {
             //     day.classList.add('curr-date')
             // }
-            if(color=='red'){
-                day.classList.add('x-class-date')
-            }
-            if(color=='yellow'){
-                day.classList.add('m-class-date')
-            }
-            if(color=='green'){
-                day.classList.add('c-class-date')
+            if(color=='black'){
+                day.classList.add('swf-class-date')
             }
         }
         calendar_days.appendChild(day)

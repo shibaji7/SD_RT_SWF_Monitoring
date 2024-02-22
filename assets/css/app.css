@@ -209,6 +209,17 @@ body {
     display: none;
 }
 
+/* Add SWF dates */
+.calendar-days div.swf-class-date,
+.calendar-days div.swf-class-date:hover {
+    background-color: var(--black-main);
+    color: var(--white);
+    border-radius: 50%;
+}
+.calendar-days div.swf-class-date span {
+    display: none;
+}
+
 .month-picker {
     padding: 5px 10px;
     border-radius: 10px;
