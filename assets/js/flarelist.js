@@ -12,6 +12,10 @@ var EVENTS = [
     'color': 'green',
     },
     {
+    'date': new Date('03/02/2021'),
+    'color': 'green',
+    },
+    {
     'date': new Date('03/03/2021'),
     'color': 'green',
     },
@@ -129,7 +133,7 @@ var EVENTS = [
     },
     {
     'date': new Date('07/03/2021'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('07/04/2021'),
@@ -160,7 +164,15 @@ var EVENTS = [
     'color': 'green',
     },
     {
+    'date': new Date('07/23/2021'),
+    'color': 'green',
+    },
+    {
     'date': new Date('07/24/2021'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('08/08/2021'),
     'color': 'green',
     },
     {
@@ -196,10 +208,6 @@ var EVENTS = [
     'color': 'green',
     },
     {
-    'date': new Date('09/08/2021'),
-    'color': 'green',
-    },
-    {
     'date': new Date('08/28/2021'),
     'color': 'yellow',
     },
@@ -221,6 +229,10 @@ var EVENTS = [
     },
     {
     'date': new Date('09/07/2021'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('09/08/2021'),
     'color': 'green',
     },
     {
@@ -333,7 +345,7 @@ var EVENTS = [
     },
     {
     'date': new Date('10/28/2021'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('10/29/2021'),
@@ -533,7 +545,7 @@ var EVENTS = [
     },
     {
     'date': new Date('01/30/2022'),
-    'color': 'green',
+    'color': 'yellow',
     },
     {
     'date': new Date('01/31/2022'),
@@ -716,12 +728,12 @@ var EVENTS = [
     'color': 'green',
     },
     {
-    'date': new Date('03/28/2022'),
-    'color': 'yellow',
-    },
-    {
     'date': new Date('03/27/2022'),
     'color': 'green',
+    },
+    {
+    'date': new Date('03/28/2022'),
+    'color': 'yellow',
     },
     {
     'date': new Date('03/29/2022'),
@@ -797,7 +809,7 @@ var EVENTS = [
     },
     {
     'date': new Date('04/17/2022'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('04/18/2022'),
@@ -809,7 +821,7 @@ var EVENTS = [
     },
     {
     'date': new Date('04/20/2022'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('04/21/2022'),
@@ -849,7 +861,7 @@ var EVENTS = [
     },
     {
     'date': new Date('04/30/2022'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('05/01/2022'),
@@ -861,7 +873,7 @@ var EVENTS = [
     },
     {
     'date': new Date('05/03/2022'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('05/04/2022'),
@@ -905,7 +917,7 @@ var EVENTS = [
     },
     {
     'date': new Date('05/14/2022'),
-    'color': 'green',
+    'color': 'yellow',
     },
     {
     'date': new Date('05/15/2022'),
@@ -1381,7 +1393,7 @@ var EVENTS = [
     },
     {
     'date': new Date('10/02/2022'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('10/03/2022'),
@@ -1421,7 +1433,7 @@ var EVENTS = [
     },
     {
     'date': new Date('10/12/2022'),
-    'color': 'green',
+    'color': 'yellow',
     },
     {
     'date': new Date('10/13/2022'),
@@ -1517,7 +1529,7 @@ var EVENTS = [
     },
     {
     'date': new Date('11/06/2022'),
-    'color': 'green',
+    'color': 'yellow',
     },
     {
     'date': new Date('11/07/2022'),
@@ -1560,10 +1572,6 @@ var EVENTS = [
     'color': 'green',
     },
     {
-    'date': new Date('11/30/2022'),
-    'color': 'green',
-    },
-    {
     'date': new Date('11/18/2022'),
     'color': 'green',
     },
@@ -1593,6 +1601,10 @@ var EVENTS = [
     },
     {
     'date': new Date('11/29/2022'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('11/30/2022'),
     'color': 'green',
     },
     {
@@ -1720,10 +1732,6 @@ var EVENTS = [
     'color': 'green',
     },
     {
-    'date': new Date('12/31/2022'),
-    'color': 'green',
-    },
-    {
     'date': new Date('01/01/2023'),
     'color': 'green',
     },
@@ -1734,10 +1742,6 @@ var EVENTS = [
     {
     'date': new Date('01/03/2023'),
     'color': 'green',
-    },
-    {
-    'date': new Date('01/18/2023'),
-    'color': 'yellow',
     },
     {
     'date': new Date('01/04/2023'),
@@ -1761,11 +1765,11 @@ var EVENTS = [
     },
     {
     'date': new Date('01/09/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('01/10/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('01/11/2023'),
@@ -1796,11 +1800,15 @@ var EVENTS = [
     'color': 'yellow',
     },
     {
-    'date': new Date('01/20/2023'),
+    'date': new Date('01/18/2023'),
     'color': 'yellow',
     },
     {
     'date': new Date('01/19/2023'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/20/2023'),
     'color': 'yellow',
     },
     {
@@ -1889,7 +1897,7 @@ var EVENTS = [
     },
     {
     'date': new Date('02/11/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('02/12/2023'),
@@ -1969,7 +1977,7 @@ var EVENTS = [
     },
     {
     'date': new Date('03/03/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('03/04/2023'),
@@ -2065,7 +2073,7 @@ var EVENTS = [
     },
     {
     'date': new Date('03/29/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('03/30/2023'),
@@ -2397,7 +2405,7 @@ var EVENTS = [
     },
     {
     'date': new Date('06/20/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('06/21/2023'),
@@ -2577,7 +2585,7 @@ var EVENTS = [
     },
     {
     'date': new Date('08/05/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('08/06/2023'),
@@ -2585,7 +2593,7 @@ var EVENTS = [
     },
     {
     'date': new Date('08/07/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('08/08/2023'),
@@ -3085,7 +3093,7 @@ var EVENTS = [
     },
     {
     'date': new Date('12/14/2023'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('12/15/2023'),
@@ -3313,7 +3321,7 @@ var EVENTS = [
     },
     {
     'date': new Date('02/09/2024'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('02/10/2024'),
@@ -3341,7 +3349,7 @@ var EVENTS = [
     },
     {
     'date': new Date('02/16/2024'),
-    'color': 'red',
+    'color': 'yellow',
     },
     {
     'date': new Date('02/17/2024'),
@@ -3361,6 +3369,10 @@ var EVENTS = [
     },
     {
     'date': new Date('02/21/2024'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('02/22/2024'),
     'color': 'red',
     },
 ]

@@ -22,7 +22,9 @@ if __name__ == "__main__":
         date.today() - timedelta(1)
     )
     commands = [
-        f"python simulate.py -m FL -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
+        f"python simulate.py -m FL",
+        f"python simulate.py -m VAL -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}"
+        f"python simulate.py -m JS",
         f"python simulate.py -m EA -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
         f"git add --all",
         f"git commit -m \"Updated on {edate.strftime('%Y-%m-%d')}\"",

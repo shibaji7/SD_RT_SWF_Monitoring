@@ -18,6 +18,7 @@ import os
 
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import mplstyle
 import numpy as np
 import pandas as pd
 import pydarn
@@ -50,8 +51,8 @@ def smooth(x, window_len=101, window="hanning"):
 
 
 def setup(science=True):
+    mplstyle.call()
     if science:
-        import mplstyle
         plt.rcParams.update(
             {
                 "figure.figsize": np.array([8, 6]),
@@ -654,14 +655,12 @@ class SDAnalysis(object):
             df = df.groupby("time").count().reset_index()
             timings = self.fetch_parameters(smooth(np.array(df.v)), df.time.tolist())
             import pytz
-            cet = pytz.timezone('US/Central')
-            offset = cet.utcoffset(df.time.tolist()[0],is_dst = True)
-            local_times = [
-                t + offset
-                for t in df.time.tolist()
-            ]
-            local_times_range = [int(l.hour > 8. and l.hour < 18) for l in local_times]
-            p = sum(local_times_range)/len(local_times_range)
+
+            cet = pytz.timezone("US/Central")
+            offset = cet.utcoffset(df.time.tolist()[0], is_dst=True)
+            local_times = [t + offset for t in df.time.tolist()]
+            local_times_range = [int(l.hour > 8.0 and l.hour < 18) for l in local_times]
+            p = sum(local_times_range) / len(local_times_range)
             logger.info(f"Probability {p}")
             if p < 0.4:
                 ax.text(
@@ -678,8 +677,10 @@ class SDAnalysis(object):
                 twax.xaxis.set_ticks_position("bottom")
                 twax.spines["bottom"].set_position(("outward", 36))
                 twax.xaxis.set_label_position("bottom")
-                twax.set_xlabel("Time (US/CST)", fontdict={"size": 12, "fontweight": "bold"})
-                twax.plot(local_times, [np.nan]*len(local_times))
+                twax.set_xlabel(
+                    "Time (US/CST)", fontdict={"size": 12, "fontweight": "bold"}
+                )
+                twax.plot(local_times, [np.nan] * len(local_times))
                 twax.set_xlim(local_times[0], local_times[-1])
             else:
                 ax.plot(df.time, df.v, "ko", ms=1.2, alpha=0.8)
@@ -689,14 +690,18 @@ class SDAnalysis(object):
                 twax.xaxis.set_ticks_position("bottom")
                 twax.spines["bottom"].set_position(("outward", 36))
                 twax.xaxis.set_label_position("bottom")
-                twax.set_xlabel("Time (US/CST)", fontdict={"size": 12, "fontweight": "bold"})
-                twax.plot(local_times, [np.nan]*len(local_times))
+                twax.set_xlabel(
+                    "Time (US/CST)", fontdict={"size": 12, "fontweight": "bold"}
+                )
+                twax.plot(local_times, [np.nan] * len(local_times))
                 twax.set_xlim(local_times[0], local_times[-1])
                 ax.axhline(timings["median"], color="b", ls="-", lw=0.5)
                 text = ""
                 if "onset" in timings:
                     ax.axvline(timings["onset"], color="darkred", ls="-", lw=0.8)
-                    text += f"O-{timings['onset'].strftime('%H:%M:%S')} UT [Onset]" + "\n"
+                    text += (
+                        f"O-{timings['onset'].strftime('%H:%M:%S')} UT [Onset]" + "\n"
+                    )
                     ax.text(
                         timings["onset"],
                         41,
@@ -707,7 +712,10 @@ class SDAnalysis(object):
                     )
                 if "start_blackout" in timings:
                     ax.axvline(timings["start_blackout"], color="k", ls="-", lw=0.8)
-                    text += fr"$B_s$-{timings['start_blackout'].strftime('%H:%M:%S')} UT [Blackout Start]" + "\n"
+                    text += (
+                        rf"$B_s$-{timings['start_blackout'].strftime('%H:%M:%S')} UT [Blackout Start]"
+                        + "\n"
+                    )
                     ax.text(
                         timings["start_blackout"],
                         41,
@@ -718,7 +726,10 @@ class SDAnalysis(object):
                     )
                 if "end_blackout" in timings:
                     ax.axvline(timings["end_blackout"], color="b", ls="-", lw=0.8)
-                    text += fr"$B_e$-{timings['end_blackout'].strftime('%H:%M:%S')} UT [Blackout End]" + "\n"
+                    text += (
+                        rf"$B_e$-{timings['end_blackout'].strftime('%H:%M:%S')} UT [Blackout End]"
+                        + "\n"
+                    )
                     ax.text(
                         timings["end_blackout"],
                         41,
@@ -729,7 +740,9 @@ class SDAnalysis(object):
                     )
                 if "recovery" in timings:
                     ax.axvline(timings["recovery"], color="g", ls="-", lw=0.8)
-                    text += f"R-{timings['recovery'].strftime('%H:%M:%S')} UT [Recovery]" 
+                    text += (
+                        f"R-{timings['recovery'].strftime('%H:%M:%S')} UT [Recovery]"
+                    )
                     ax.text(
                         timings["recovery"],
                         41,
@@ -752,10 +765,12 @@ class SDAnalysis(object):
 
     def save(self, figname=None, folder="assets/data/figures/rads/"):
         os.makedirs(folder, exist_ok=True)
-        figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
+        figname = (
+            figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
+        )
         self.fig.savefig(figname, bbox_inches="tight")
         return
-    
+
     def close(self):
         plt.close()
         return

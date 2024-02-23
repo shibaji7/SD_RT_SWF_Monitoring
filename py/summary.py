@@ -13,36 +13,34 @@ __maintainer__ = "Chakraborty, S."
 __email__ = "shibaji7@vt.edu"
 __status__ = "Research"
 
-import datetime as dt
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 import random
 
-import mplstyle
-from cartoUtils import SDCarto
 import cartopy
+import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import mplstyle
+import numpy as np
 from cartopy.mpl.gridliner import LATITUDE_FORMATTER, LONGITUDE_FORMATTER
-
-from goes import FlareTS
+from cartoUtils import SDCarto
 from fetchUtils import SDAnalysis
-import utils
+from goes import FlareTS
+
 
 class Summary(object):
-
     def __init__(self, event, date=None):
+        mplstyle.call()
+        SDCarto.call()
         self.event = event
         for k in self.event.keys():
             setattr(self, k, self.event[k])
         self.date = date if date else self.event_peaktime
         file = f"{self.event_starttime.strftime('%Y%m%d')}.png"
         self.file_names = dict(
-            goes_file = f"assets/data/figures/goes/{file}",
-            sd_file = f"assets/data/figures/rads/{file}",
-            summary_file = f"assets/data/figures/sd_summary/{file}",
-            summary_dn_file = f"assets/data/figures/sd_dn_summary/{file}",
+            goes_file=f"assets/data/figures/goes/{file}",
+            sd_file=f"assets/data/figures/rads/{file}",
+            summary_file=f"assets/data/figures/sd_summary/{file}",
+            summary_dn_file=f"assets/data/figures/sd_dn_summary/{file}",
         )
         return
 
@@ -66,10 +64,7 @@ class Summary(object):
             self.flareTS.save(self.file_names["goes_file"])
             self.flareTS.close()
             # SD plot
-            self.sd = SDAnalysis(
-                dates=[self.start_time, self.end_time], 
-                rads=self.rads
-            )
+            self.sd = SDAnalysis(dates=[self.start_time, self.end_time], rads=self.rads)
             setattr(self.sd, "sd_timings", self.sd.plot_summary_TS())
             self.sd.save(self.file_names["sd_file"])
             self.sd.close()
@@ -81,10 +76,9 @@ class Summary(object):
     def __run_summary_map_plots__(self):
         # Create radars with overlaying plots [at peak]
         folder = f"assets/data/figures/sd_dn_summary/"
-        from cartopy.feature.nightshade import Nightshade
         os.makedirs(folder, exist_ok=True)
-        self.fig = plt.figure(dpi=300, figsize=(2,3))
-        #proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
+        self.fig = plt.figure(dpi=300, figsize=(2, 3))
+        # proj = cartopy.crs.Stereographic(central_longitude=-90.0, central_latitude=45.0)
         proj = cartopy.crs.PlateCarree(central_longitude=-120)
         ax = self.fig.add_subplot(
             111,
@@ -107,6 +101,7 @@ class Summary(object):
         self.proj = proj
         self.geo = cartopy.crs.PlateCarree()
         import pytz
+
         date = self.event_peaktime.to_pydatetime()
         to_cst = date.replace(tzinfo=pytz.utc).astimezone(pytz.timezone("US/Central"))
         txt = f"Flare Peak: {date.strftime('%Y-%m-%d [%H:%M')} UT"
@@ -134,19 +129,18 @@ class Summary(object):
         colors = ["b", "k", "r", "m"]
         for rad in self.rads:
             col = random.choice(colors)
-            ax.overlay_radar(
-                rad, fontSize=4, 
-                font_color=col, markerColor=col
-            )
+            ax.overlay_radar(rad, fontSize=4, font_color=col, markerColor=col)
             ax.overlay_fov(rad, lineColor=col, lineWidth=0.3, fovColor=None)
-        ax.text(1.01,
+        ax.text(
+            1.01,
             0.99,
-             "BKS - Blackstone\n FHE/W - Fort Hays East/West",
+            "BKS - Blackstone\n FHE/W - Fort Hays East/West",
             ha="left",
-            va="top", transform=ax.transAxes,
-                fontdict={"size": 3, "color": "k"},
-                rotation=90
-            )
+            va="top",
+            transform=ax.transAxes,
+            fontdict={"size": 3, "color": "k"},
+            rotation=90,
+        )
         figname = self.file_names["summary_dn_file"]
         self.fig.savefig(figname, bbox_inches="tight")
         plt.close()

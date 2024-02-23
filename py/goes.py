@@ -13,8 +13,10 @@ __status__ = "Research"
 
 import datetime as dt
 import os
+
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import mplstyle
 import numpy as np
 import pandas as pd
 from loguru import logger
@@ -24,8 +26,8 @@ from sunpy.net import attrs as a
 
 
 def setup(science=True):
+    mplstyle.call()
     if science:
-        import mplstyle
         plt.rcParams.update(
             {
                 "figure.figsize": np.array([8, 6]),
@@ -76,7 +78,6 @@ class FlareInfo(object):
                 "fl_goescls",
                 "ar_noaanum",
             ].to_pandas()
-            self.flare["cls"] = self.flare.fl_goescls.apply(lambda x: x[0])
         return
 
 
@@ -135,23 +136,27 @@ class FlareTS(object):
 
     def __load_NOAA__(self):
         logger.info("Checking into NOAA directory")
-        import requests, json 
+
+        import requests
+
         url_xray = "https://services.swpc.noaa.gov/json/goes/primary/xrays-7-day.json"
         json_list = requests.get(url_xray).json()
         df = []
-        for i in range(int(len(json_list)/2)):
-            aflux, bflux = json_list[2*i], json_list[2*i+1]
-            df.append(dict(
-                time=dt.datetime.strptime(aflux["time_tag"], "%Y-%m-%dT%H:%M:%SZ"),
-                xrsa=aflux["flux"],
-                xrsb=bflux["flux"],
-            ))
+        for i in range(int(len(json_list) / 2)):
+            aflux, bflux = json_list[2 * i], json_list[2 * i + 1]
+            df.append(
+                dict(
+                    time=dt.datetime.strptime(aflux["time_tag"], "%Y-%m-%dT%H:%M:%SZ"),
+                    xrsa=aflux["flux"],
+                    xrsb=bflux["flux"],
+                )
+            )
         df = pd.DataFrame.from_records(df)
         self.dfs["goes"] = df.copy()
         self.dfs["goes"] = self.dfs["goes"][
-                    (self.dfs["goes"].time >= self.dates[0])
-                    & (self.dfs["goes"].time <= self.dates[1])
-                ]
+            (self.dfs["goes"].time >= self.dates[0])
+            & (self.dfs["goes"].time <= self.dates[1])
+        ]
         return
 
     def __loadRHESSI__(self):
@@ -284,29 +289,45 @@ class FlareTS(object):
                 lw=0.6,
                 alpha=0.7,
             )
-            ar = str(self.flare_info["ar_noaanum"]) if self.flare_info["ar_noaanum"] else "-"
+            ar = (
+                str(self.flare_info["ar_noaanum"])
+                if self.flare_info["ar_noaanum"]
+                else "-"
+            )
             txt = f"Class: {self.flare_info['fl_goescls']} \n"
             txt += f"AR: {ar}"
             ax.text(
-                0.05, 1.1,
+                0.05,
+                1.1,
                 txt,
-                ha="left", va="center",
+                ha="left",
+                va="center",
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
-            txt = fr"$F_s-${self.flare_info['event_starttime'].strftime('%H:%M')} UT "+" [Start]\n"
-            txt += fr"$F_p-${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"+" [Peak]\n"
-            txt += fr"$F_e-${self.flare_info['event_endtime'].strftime('%H:%M')} UT [End]"
+            txt = (
+                rf"$F_s-${self.flare_info['event_starttime'].strftime('%H:%M')} UT "
+                + " [Start]\n"
+            )
+            txt += (
+                rf"$F_p-${self.flare_info['event_peaktime'].strftime('%H:%M')} UT"
+                + " [Peak]\n"
+            )
+            txt += (
+                rf"$F_e-${self.flare_info['event_endtime'].strftime('%H:%M')} UT [End]"
+            )
             ax.text(
-                0.95, 1.15,
+                0.95,
+                1.15,
                 txt,
-                ha="right", va="center",
+                ha="right",
+                va="center",
                 transform=ax.transAxes,
                 fontdict={"size": 8, "color": "k"},
             )
             for k, v in zip(
                 ["event_peaktime", "event_starttime", "event_endtime"],
-                [f"$F_p$", f"$F_s$", f"$F_e$"]
+                [f"$F_p$", f"$F_s$", f"$F_e$"],
             ):
                 ax.text(
                     self.flare_info[k],
@@ -322,8 +343,10 @@ class FlareTS(object):
 
     def save(self, figname=None, folder="assets/data/figures/goes/"):
         os.makedirs(folder, exist_ok=True)
-        figname = figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
-        self.fig.savefig(figname, bbox_inches="tight")        
+        figname = (
+            figname if figname else folder + f"{self.dates[0].strftime('%Y%m%d')}.png"
+        )
+        self.fig.savefig(figname, bbox_inches="tight")
         return
 
     def close(self):

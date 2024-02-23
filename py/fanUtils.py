@@ -15,9 +15,9 @@ __status__ = "Research"
 
 
 import matplotlib.pyplot as plt
+import mplstyle
 import numpy as np
 
-import mplstyle
 plt.rcParams["font.family"] = "sans-serif"
 plt.rcParams["font.sans-serif"] = ["Tahoma", "DejaVu Sans", "Lucida Grande", "Verdana"]
 
@@ -25,6 +25,7 @@ import cartopy
 import matplotlib.ticker as mticker
 import tidUtils
 from cartopy.mpl.gridliner import LATITUDE_FORMATTER, LONGITUDE_FORMATTER
+from cartoUtils import SDCarto
 
 
 class Fan(object):
@@ -40,12 +41,11 @@ class Fan(object):
         nrows=1,
         ncols=1,
         coord="geo",
-        cs=True,
         tec=None,
         tec_times=None,
     ):
-        if cs:
-            plt.style.use(["science", "ieee"])
+        mplstyle.call()
+        SDCarto.call()
         self.cs = cs
         self.rads = rads
         self.date = date

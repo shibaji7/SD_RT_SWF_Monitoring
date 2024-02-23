@@ -21,16 +21,20 @@ import numpy
 import numpy as np
 import pydarn
 import tidUtils
+from cartopy.feature.nightshade import Nightshade
 from cartopy.mpl.geoaxes import GeoAxes
 from descartes import PolygonPatch
 from matplotlib.projections import register_projection
 from rad_fov import CalcFov
 from shapely.geometry import LineString, MultiLineString, Polygon, mapping
-from cartopy.feature.nightshade import Nightshade
 
 
 class SDCarto(GeoAxes):
     name = "SDCarto"
+
+    @staticmethod
+    def call():
+        return
 
     def __init__(self, *args, **kwargs):
         if "map_projection" in kwargs:

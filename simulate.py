@@ -19,7 +19,10 @@ import pandas as pd
 import sys
 sys.path.extend(["py/", "py/geo/"])
 import utils
-from calender_list import create_flare_list_for_calender, create_event_list
+from calender_list import (
+    create_flare_list_for_calender, create_event_list, 
+    validate_specific_dates_class_list, create_JS
+)
 from drap import DRAP
 from summary import Summary
 
@@ -33,8 +36,8 @@ def run_summary_plots_event_analysis(args):
     else:
         days = int((args.end_date - args.start_date).days)
         dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
+    events, color_codes = utils.read_events()
     for date in dates:
-        events, color_codes =  utils.read_events(date)
         event = utils.select_event_by_color_code_date(events, color_codes, date)
         if event["has_event"]:
             event.update(args.__dict__)
@@ -49,8 +52,8 @@ def run_DRAP_event(args):
     else:
         days = int((args.end_date - args.start_date).days)
         dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
+    events, color_codes = utils.read_events()
     for date in dates:
-        events, color_codes =  utils.read_events(date)
         event = utils.select_event_by_color_code_date(events, color_codes, date)
         if event["has_event"]:
             event.update(args.__dict__)
@@ -63,13 +66,13 @@ if __name__ == "__main__":
         "-y", "--year", default=2021, type=int, help="Start year for flare list creation."
     )
     parser.add_argument(
-        "-m", "--method", default="EA", type=str, help="FL: Flare list; EA: Event analysis, EL: Event list"
+        "-m", "--method", default="VAL", type=str, help="FL: Flare list; EA: Event analysis, EL: Event list"
     )
     parser.add_argument(
-        "-sd", "--start_date", default="2024-02-21", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-sd", "--start_date", default="2024-02-22", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
-        "-ed", "--end_date", default="2024-02-21", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
+        "-ed", "--end_date", default="2024-02-22", type=dt.datetime.fromisoformat, help="ISOformat - YYYY-MM-DD:HH:mm:ss"
     )
     parser.add_argument(
         "-wm", "--whole_month", action="store_true", help="Run whole month analysis"
@@ -87,5 +90,9 @@ if __name__ == "__main__":
         create_flare_list_for_calender(args.year)
     elif args.method == "EL":
         create_event_list(args.year)
+    elif args.method == "VAL":
+        validate_specific_dates_class_list(args.start_date, args.end_date)
+    elif args.method == "JS":
+        create_JS(args.year)
     else:
         print(f"Invalid method / not implemented {args.method}")

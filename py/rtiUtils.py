@@ -23,6 +23,7 @@ import datetime as dt
 
 import matplotlib.dates as mdates
 import model_vheight as mvh
+import mplstyle
 import numpy as np
 import tidUtils
 from pysolar.solar import get_altitude_fast
@@ -36,6 +37,7 @@ class RTI(object):
     def __init__(
         self, nGates, drange, fig_title=None, num_subplots=1, angle_th=100.0, vhm=None
     ):
+        mplstyle.call()
         self.nGates = nGates
         self.drange = drange
         self.num_subplots = num_subplots
