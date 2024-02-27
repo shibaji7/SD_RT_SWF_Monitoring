@@ -25,7 +25,7 @@ if __name__ == "__main__":
         dt.datetime.strptime(
             files[-1].split("/")[-1].replace(".png", ""),
             "%Y%m%d"
-        ), datetime.combine(date.today(), datetime.min.time()) - timedelta(1)
+        ), datetime.combine(date.today(), datetime.min.time())
     )
     sdate, edate = (
         start,
