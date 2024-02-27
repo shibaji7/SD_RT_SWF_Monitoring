@@ -33,7 +33,6 @@ if __name__ == "__main__":
     )
     print(start, end)
     while edate <= end:
-        
         commands = [
             f"python simulate.py -m FL",
             f"python simulate.py -m VAL -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
@@ -48,6 +47,7 @@ if __name__ == "__main__":
             sdate + timedelta(1),
             edate + timedelta(1),
         )
+        print(sdate, edate)
     commands = [
         f"git add --all",
         f"git commit -m \"Updated on {edate.strftime('%Y-%m-%d')}\"",
