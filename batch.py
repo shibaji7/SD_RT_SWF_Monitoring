@@ -25,14 +25,15 @@ if __name__ == "__main__":
         dt.datetime.strptime(
             files[-1].split("/")[-1].replace(".png", ""),
             "%Y%m%d"
-        ), datetime.combine(date.today(), datetime.min.time()) + timedelta(1)
+        ), datetime.combine(date.today(), datetime.min.time()) - timedelta(1)
     )
     sdate, edate = (
         start,
         start + timedelta(1)
     )
+    print(start, end)
     while edate <= end:
-        print(sdate, edate)
+        
         commands = [
             f"python simulate.py -m FL",
             f"python simulate.py -m VAL -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
