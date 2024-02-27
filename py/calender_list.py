@@ -80,6 +80,7 @@ def create_flare_list_for_calender(year_start):
                 pd.concat([events, e]),
                 pd.concat([color_codes, col]),
             )
+            print(e)
     events.to_csv(flare_data_file, index=False, header=True)
     color_codes.to_csv(flare_color_code_file, index=False, header=True)
     return events, color_codes
