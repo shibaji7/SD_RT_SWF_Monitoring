@@ -40,6 +40,7 @@ if __name__ == "__main__":
             f"python simulate.py -m EA -sd {sdate.strftime('%Y-%m-%d')} -ed {edate.strftime('%Y-%m-%d')}",
         ]
         for command in commands:
+            print(f"Command: {command}")
             os.chdir("/home/shibaji/CodeBase/SD_RT_SWF_Monitoring/")
             os.system(command)
         sdate, edate = (
