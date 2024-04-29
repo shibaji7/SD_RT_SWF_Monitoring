@@ -3599,4 +3599,20 @@ var EVENTS = [
     'date': new Date('04/24/2024'),
     'color': 'yellow',
     },
+    {
+    'date': new Date('04/25/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('04/26/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('04/27/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('04/28/2024'),
+    'color': 'green',
+    },
 ]
