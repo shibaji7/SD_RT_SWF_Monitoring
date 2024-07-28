@@ -3931,4 +3931,48 @@ var EVENTS = [
     'date': new Date('07/16/2024'),
     'color': 'red',
     },
+    {
+    'date': new Date('07/17/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/18/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/19/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/20/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/21/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/22/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/23/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/24/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/25/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/26/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('07/27/2024'),
+    'color': 'yellow',
+    },
 ]
