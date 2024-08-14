@@ -665,7 +665,7 @@ class SDAnalysis(object):
                 ax.text(
                     0.7,
                     0.7,
-                    "No SWF event observed \n due to insufficient radar data.",
+                    "No SWF event observed \n due to NA on nightside.",
                     ha="center",
                     va="center",
                     fontdict={"size": 12, "color": "darkred"},
@@ -760,6 +760,16 @@ class SDAnalysis(object):
                     transform=ax.transAxes,
                 )
             self.fig.subplots_adjust(hspace=0.25)
+        else:
+            ax.text(
+                    0.7,
+                    0.7,
+                    "No SWF event observed \n due to insufficient radar data.",
+                    ha="center",
+                    va="center",
+                    fontdict={"size": 12, "color": "darkred"},
+                    transform=ax.transAxes,
+                )
         return timings
 
     def save(self, figname=None, folder="assets/data/figures/rads/"):

@@ -16,6 +16,8 @@ import argparse
 import datetime as dt
 import pandas as pd
 
+import traceback
+from loguru import logger
 import sys
 sys.path.extend(["py/", "py/geo/"])
 import utils
@@ -38,12 +40,16 @@ def run_summary_plots_event_analysis(args):
         dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
     events, color_codes = utils.read_events()
     for date in dates:
-        event = utils.select_event_by_color_code_date(events, color_codes, date)
-        if event["has_event"]:
-            event.update(args.__dict__)
-            summary = Summary(event)
-            summary.create_overlap_summary_plot()
-            drap = DRAP(event, only_xrap=True)
+        try:
+            event = utils.select_event_by_color_code_date(events, color_codes, date)
+            if event["has_event"]:
+                event.update(args.__dict__)
+                summary = Summary(event)
+                summary.create_overlap_summary_plot()
+                drap = DRAP(event, only_xrap=True)
+        except:
+            log = traceback.print_exc()
+            logger.error(f"Error on {date} \n {log}")
     return
 
 def run_DRAP_event(args):
@@ -54,10 +60,14 @@ def run_DRAP_event(args):
         dates = [args.start_date + dt.timedelta(d) for d in range(days+1)]
     events, color_codes = utils.read_events()
     for date in dates:
-        event = utils.select_event_by_color_code_date(events, color_codes, date)
-        if event["has_event"]:
-            event.update(args.__dict__)
-            drap = DRAP(event)
+        try:
+            event = utils.select_event_by_color_code_date(events, color_codes, date)
+            if event["has_event"]:
+                event.update(args.__dict__)
+                drap = DRAP(event)
+        except:
+            log = traceback.print_exc()
+            logger.error(f"Error on {date} \n {log}")
     return
 
 if __name__ == "__main__":

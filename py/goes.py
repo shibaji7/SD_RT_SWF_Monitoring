@@ -106,32 +106,48 @@ class FlareTS(object):
         """
         self.flare = {}
         self.dfs["goes"], self.goes, self.flareHEK = pd.DataFrame(), [], None
-        result = Fido.search(
-            a.Time(
-                self.dates[0].strftime("%Y-%m-%d %H:%M"),
-                self.dates[1].strftime("%Y-%m-%d %H:%M"),
-            ),
-            a.Instrument("XRS") | a.hek.FL & (a.hek.FRM.Name == "SWPC"),
-        )
-        if len(result) > 0:
-            if self.verbose:
-                logger.info(f"Fetching GOES ...")
-            tmpfiles = Fido.fetch(result, progress=True)
-            if len(tmpfiles) > 0:
-                for tf in tmpfiles:
-                    self.goes.append(ts.TimeSeries(tf))
-                    self.dfs["goes"] = pd.concat(
-                        [self.dfs["goes"], self.goes[-1].to_dataframe()]
-                    )
-                self.dfs["goes"].index.name = "time"
-                self.dfs["goes"] = self.dfs["goes"].reset_index()
-                self.dfs["goes"] = self.dfs["goes"][
-                    (self.dfs["goes"].time >= self.dates[0])
-                    & (self.dfs["goes"].time <= self.dates[1])
-                ]
-            else:
-                logger.info("No files downloaded from remote system")
-                self.__load_NOAA__()
+        file_str = f"/home/shibaji/sunpy/data/sci_xrsf-*_d{self.dates[0].strftime('%Y%m%d')}_*.nc"
+        import glob
+        files = glob.glob(file_str)
+        if len(files)>0:
+            logger.info(f"File exists: {files[0]}")
+            self.goes.append(ts.TimeSeries(files[0]))
+            self.dfs["goes"] = pd.concat(
+                [self.dfs["goes"], self.goes[-1].to_dataframe()]
+            )
+            self.dfs["goes"].index.name = "time"
+            self.dfs["goes"] = self.dfs["goes"].reset_index()
+            self.dfs["goes"] = self.dfs["goes"][
+                (self.dfs["goes"].time >= self.dates[0])
+                & (self.dfs["goes"].time <= self.dates[1])
+            ]
+        else:
+            result = Fido.search(
+                a.Time(
+                    self.dates[0].strftime("%Y-%m-%d %H:%M"),
+                    self.dates[1].strftime("%Y-%m-%d %H:%M"),
+                ),
+                a.Instrument("XRS") | a.hek.FL & (a.hek.FRM.Name == "SWPC"),
+            )
+            if len(result) > 0:
+                if self.verbose:
+                    logger.info(f"Fetching GOES ...")
+                tmpfiles = Fido.fetch(result, progress=True)
+                if len(tmpfiles) > 0:
+                    for tf in tmpfiles:
+                        self.goes.append(ts.TimeSeries(tf))
+                        self.dfs["goes"] = pd.concat(
+                            [self.dfs["goes"], self.goes[-1].to_dataframe()]
+                        )
+                    self.dfs["goes"].index.name = "time"
+                    self.dfs["goes"] = self.dfs["goes"].reset_index()
+                    self.dfs["goes"] = self.dfs["goes"][
+                        (self.dfs["goes"].time >= self.dates[0])
+                        & (self.dfs["goes"].time <= self.dates[1])
+                    ]
+                else:
+                    logger.info("No files downloaded from remote system")
+                    self.__load_NOAA__()
         return
 
     def __load_NOAA__(self):
