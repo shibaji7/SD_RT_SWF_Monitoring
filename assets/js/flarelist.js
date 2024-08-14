@@ -4015,4 +4015,32 @@ var EVENTS = [
     'date': new Date('08/06/2024'),
     'color': 'yellow',
     },
+    {
+    'date': new Date('08/07/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/08/2024'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('08/09/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/10/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/11/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/12/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/13/2024'),
+    'color': 'yellow',
+    },
 ]
