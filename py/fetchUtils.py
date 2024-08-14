@@ -655,18 +655,17 @@ class SDAnalysis(object):
             df = df.groupby("time").count().reset_index()
             timings = self.fetch_parameters(smooth(np.array(df.v)), df.time.tolist())
             import pytz
-
             cet = pytz.timezone("US/Central")
             offset = cet.utcoffset(df.time.tolist()[0], is_dst=True)
             local_times = [t + offset for t in df.time.tolist()]
             local_times_range = [int(l.hour > 8.0 and l.hour < 18) for l in local_times]
             p = sum(local_times_range) / len(local_times_range)
             logger.info(f"Probability {p}")
-            if p < 0.4:
+            if p < 0.1:
                 ax.text(
                     0.7,
                     0.7,
-                    "No SWF event observed \n insufficient radar data.",
+                    "No SWF event observed \n due to insufficient radar data.",
                     ha="center",
                     va="center",
                     fontdict={"size": 12, "color": "darkred"},
