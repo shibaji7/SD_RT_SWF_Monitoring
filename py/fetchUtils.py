@@ -16,6 +16,7 @@ import datetime as dt
 import glob
 import os
 
+import traceback
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import mplstyle
@@ -471,8 +472,13 @@ class SDAnalysis(object):
         if not hasattr(self, "dat"):
             self.dat = {}
             for r in self.rads:
-                fdata = FetchData.fetch(r, self.dates)
-                self.dat[r] = fdata
+                logger.info(f"Loading {r}")
+                try:
+                    fdata = FetchData.fetch(r, self.dates)
+                    self.dat[r] = fdata
+                except:
+                    log = traceback.print_exc()
+                    logger.error(f"Error fetching {r} \n {log}")
         return
 
     # TODO
@@ -634,7 +640,7 @@ class SDAnalysis(object):
         df = pd.DataFrame()
         rads_conttributing = []
         for i, r in enumerate(self.rads):
-            if hasattr(self.dat[r], "frame"):
+            if r in self.dat.keys() and hasattr(self.dat[r], "frame"):
                 o = self.dat[r].frame
                 if len(o) > 0:
                     rads_conttributing.append(r)
