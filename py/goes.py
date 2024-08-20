@@ -106,26 +106,30 @@ class FlareTS(object):
         """
         self.flare = {}
         self.dfs["goes"], self.goes, self.flareHEK = pd.DataFrame(), [], None
-        file_str = f"/home/shibaji/sunpy/data/sci_xrsf-*_d{self.dates[0].strftime('%Y%m%d')}_*.nc"
+        days = int((self.dates[1]-self.dates[0]).days)
+        ddates = [
+            self.dates[0] + dt.timedelta(int(x))
+            for x in np.arange(days-1, days+2, 1)
+        ]
+        files = []
         import glob
-        files = glob.glob(file_str)
+        for ddate in ddates:
+            file_str = f"/home/shibaji/sunpy/data/sci_xrsf-*_d{ddate.strftime('%Y%m%d')}_*.nc"
+            files.extend(glob.glob(file_str))
         if len(files)>0:
-            logger.info(f"File exists: {files[0]}")
-            self.goes.append(ts.TimeSeries(files[0]))
-            self.dfs["goes"] = pd.concat(
-                [self.dfs["goes"], self.goes[-1].to_dataframe()]
-            )
+            for f in files:
+                logger.info(f"File exists: {f}")
+                self.goes.append(ts.TimeSeries(f))
+                self.dfs["goes"] = pd.concat(
+                    [self.dfs["goes"], self.goes[-1].to_dataframe()]
+                )
             self.dfs["goes"].index.name = "time"
             self.dfs["goes"] = self.dfs["goes"].reset_index()
-            self.dfs["goes"] = self.dfs["goes"][
-                (self.dfs["goes"].time >= self.dates[0])
-                & (self.dfs["goes"].time <= self.dates[1])
-            ]
         else:
             result = Fido.search(
                 a.Time(
-                    self.dates[0].strftime("%Y-%m-%d %H:%M"),
-                    self.dates[1].strftime("%Y-%m-%d %H:%M"),
+                    (self.dates[0]-dt.timedelta(1)).strftime("%Y-%m-%d %H:%M"),
+                    (self.dates[1]+dt.timedelta(1)).strftime("%Y-%m-%d %H:%M"),
                 ),
                 a.Instrument("XRS") | a.hek.FL & (a.hek.FRM.Name == "SWPC"),
             )
@@ -141,10 +145,6 @@ class FlareTS(object):
                         )
                     self.dfs["goes"].index.name = "time"
                     self.dfs["goes"] = self.dfs["goes"].reset_index()
-                    self.dfs["goes"] = self.dfs["goes"][
-                        (self.dfs["goes"].time >= self.dates[0])
-                        & (self.dfs["goes"].time <= self.dates[1])
-                    ]
                 else:
                     logger.info("No files downloaded from remote system")
                     self.__load_NOAA__()
@@ -242,8 +242,8 @@ class FlareTS(object):
         )
         N = int((self.dates[1] - self.dates[0]).total_seconds() / del_t)
         ax.semilogy(
-            self.dfs["goes"].time.tolist()[:N],
-            self.dfs["goes"].xrsa.tolist()[:N],
+            self.dfs["goes"].time.tolist(),
+            self.dfs["goes"].xrsa.tolist(),
             "b",
             ls="-",
             lw=1.0,
@@ -251,8 +251,8 @@ class FlareTS(object):
             label=r"$\lambda_0\sim (0.05-0.4)$ nm",
         )
         ax.semilogy(
-            self.dfs["goes"].time.tolist()[:N],
-            self.dfs["goes"].xrsb.tolist()[:N],
+            self.dfs["goes"].time.tolist(),
+            self.dfs["goes"].xrsb.tolist(),
             "r",
             ls="-",
             lw=1.0,

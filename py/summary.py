@@ -65,7 +65,6 @@ class Summary(object):
             self.flareTS.close()
             # SD plot
             self.sd = SDAnalysis(dates=[self.start_time, self.end_time], rads=self.rads)
-            print(self.sd.plot_summary_TS())
             setattr(self.sd, "sd_timings", self.sd.plot_summary_TS())
             self.sd.save(self.file_names["sd_file"])
             self.sd.close()
