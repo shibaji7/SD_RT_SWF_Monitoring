@@ -4075,4 +4075,88 @@ var EVENTS = [
     'date': new Date('08/21/2024'),
     'color': 'yellow',
     },
+    {
+    'date': new Date('08/22/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/23/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/24/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/25/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/26/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/27/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/28/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('08/29/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('08/30/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('08/31/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/01/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/02/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/03/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/04/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/05/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/06/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/07/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/08/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/09/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/10/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('09/11/2024'),
+    'color': 'yellow',
+    },
 ]
