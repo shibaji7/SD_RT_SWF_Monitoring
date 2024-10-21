@@ -4299,4 +4299,16 @@ var EVENTS = [
     'date': new Date('10/16/2024'),
     'color': 'yellow',
     },
+    {
+    'date': new Date('10/17/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('10/18/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('10/19/2024'),
+    'color': 'yellow',
+    },
 ]
