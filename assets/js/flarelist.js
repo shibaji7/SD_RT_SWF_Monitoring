@@ -4311,4 +4311,16 @@ var EVENTS = [
     'date': new Date('10/19/2024'),
     'color': 'yellow',
     },
+    {
+    'date': new Date('10/20/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('10/21/2024'),
+    'color': 'green',
+    },
+    {
+    'date': new Date('10/22/2024'),
+    'color': 'green',
+    },
 ]
