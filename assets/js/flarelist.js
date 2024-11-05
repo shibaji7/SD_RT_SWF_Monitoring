@@ -4361,6 +4361,18 @@ var EVENTS = [
     },
     {
     'date': new Date('11/01/2024'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('11/02/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('11/03/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('11/04/2024'),
     'color': 'yellow',
     },
 ]
