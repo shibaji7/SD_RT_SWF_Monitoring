@@ -4549,6 +4549,34 @@ var EVENTS = [
     },
     {
     'date': new Date('12/18/2024'),
-    'color': 'green',
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/19/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/20/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/21/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/22/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/23/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/24/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('12/25/2024'),
+    'color': 'yellow',
     },
 ]
