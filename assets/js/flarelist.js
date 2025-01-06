@@ -4595,4 +4595,32 @@ var EVENTS = [
     'date': new Date('12/29/2024'),
     'color': 'red',
     },
+    {
+    'date': new Date('12/30/2024'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('12/31/2024'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/01/2025'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/02/2025'),
+    'color': 'yellow',
+    },
+    {
+    'date': new Date('01/03/2025'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('01/04/2025'),
+    'color': 'red',
+    },
+    {
+    'date': new Date('01/05/2025'),
+    'color': 'yellow',
+    },
 ]
